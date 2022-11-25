@@ -3,10 +3,16 @@
 #include <string>
 using namespace std;
 
+/**
+ * DAO template class used as a Persistence API to a simple database implemented
+ * with a file text for each class that has to be persisted. It is an abstract
+ * because some of the private helper functions must be implemented by a subclass 
+ * specific to a type.
+ * 
+ */
 template <class T>
 class DAO {
 	public:
-		T* create();
 		DAO::DAO(string fileURL) {
 			this.fileURL = fileURL;
 		}
@@ -101,8 +107,4 @@ class DAO {
 			file << object.print() << endl;
 		}
 };
-
-
-
-
 #endif
