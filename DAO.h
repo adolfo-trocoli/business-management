@@ -21,8 +21,8 @@ class DAO {
 			this->fileURL = fileURL;
 		}
 
-		optional<T> find(int id) {
-			optional<T> object;
+		optional<T*> find(int id) {
+			optional<T*> object;
 			string line;
 			ifstream file(fileURL);
 			while(getline(file, line)) {
@@ -32,9 +32,9 @@ class DAO {
 			return object;
 		}
 
-		optionl<vector<T>> findAll() {
-			optional<T> object;
-			vector<T> objects;
+		optional<vector<T*>> findAll() {
+			optional<T*> object;
+			vector<T*> objects;
 			string line;
 			ifstream file(fileURL);
 			while(getline(file, line)) {

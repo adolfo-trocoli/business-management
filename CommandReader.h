@@ -10,8 +10,7 @@ class CommandReader {
 	public:
 		CommandReader(Controller *controller);
 		void readCommand();
-		bool exit();
-	private:
+		bool exit() const;
 		Controller* controller;
 		bool exit_flag;
 

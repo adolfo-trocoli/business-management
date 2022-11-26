@@ -17,7 +17,7 @@ void CommandReader::readCommand() {
 	treatCommand(command);
 }
 
-bool CommandReader::exit() {return exit_flag;}
+bool CommandReader::exit() const {return exit_flag;}
 
 void CommandReader::treatCommand(string command){
 	vector<string> words = separateWords(command);
@@ -33,6 +33,10 @@ void CommandReader::treatCommand(string command){
 	
 	unordered_map<string, string> arguments = extractArguments(command);		
 	selectControllerCall(command_case, arguments);
+}
+
+void CommandReader::errorMessage(string command) {
+	cout << "Incorrect command <" << command << ">" << endl; 
 }
 
 
@@ -88,7 +92,7 @@ unordered_map<string, string> CommandReader::extractArguments(std::string comman
 void CommandReader::selectControllerCall(Command command_case, unordered_map<string, string> arguments) {
 	switch (command_case) {
 		case(HELP):
-			callDisplayHelp();
+			callDisplayHelp(arguments);
 			break;
 		case(ADD):
 			callCreateEmployee(arguments);
@@ -120,7 +124,18 @@ void CommandReader::selectControllerCall(Command command_case, unordered_map<str
 	}
 }
 
+// Mirar si unificar los comandos de empleados y departamentos
+
+void callDisplayHelp(unordered_map<string, string> arguments) {
+	if(arguments.find("c") != arguments.end())
+		controller->displayHelp(arguments["c"]);
+	else
+		controller->displayHelp();
+}
+
 void CommandReader::callCreateEmployee(unordered_map<string, string> arguments) {
+	if(arguments.find("d") != arguments.end())
+		if(arguments.find("c") != arguments.end())
 
 }
 

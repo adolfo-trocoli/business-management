@@ -28,13 +28,13 @@ class Controller {
         void show();
 
         optional<Employee*> findEmployee(int id);
-        optional<Employee**> findEmployees();        
+        optional<vector<Employee*>> findEmployees();        
         void createEmployee(std::string name, int departmentId);
         void removeEmployee(Employee employee);
         void updateEmployee(Employee employee);
 
         optional<Department*> findDepartment(int id);
-        optional<Department**> findDepartments();
+        optional<vector<Department*>> findDepartments();
         void createDepartment(std::string name, int sells, int managerId);
         void removeDepartment(Department dpt);
         void updateDepartment(Department dpt);
