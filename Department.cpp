@@ -2,8 +2,8 @@
 #include <string>
 using namespace std;
 
-Department::Department(string name, int sells, int managerId) {
-    id++;
+Department::Department(int id, string name, int sells, int managerId) {
+    this->id = id;
     this->name = name;
     this->sells = sells;
     this->managerId = managerId;

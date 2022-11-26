@@ -4,12 +4,12 @@
 
 class Department {
     private:
-        static int id;
+        int id;
         std::string name;
         int sells;
         int managerId;
     public:
-        Department(std::string name, int sells, int managerId);
+        Department(int id, std::string name, int sells, int managerId);
         int getId() const;
         std::string getName() const;
         int getSells() const;
@@ -17,6 +17,6 @@ class Department {
         void setName(std::string name);
         void setSells(int sells);
         void setManagerId(int managerId);
-        std::string to_string();
+        std::string toString();
 };
 #endif

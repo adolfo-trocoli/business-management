@@ -1,6 +1,10 @@
 #ifndef DAO_h
 #define DAO_h
 #include <string>
+#include <vector>
+#include <fstream>
+#include <regex>
+#include <optional>
 using namespace std;
 
 /**
@@ -13,37 +17,44 @@ using namespace std;
 template <class T>
 class DAO {
 	public:
-		DAO::DAO(string fileURL) {
-			this.fileURL = fileURL;
+		DAO(string fileURL) {
+			this->fileURL = fileURL;
 		}
 
-		T DAO::find(int id) {
+		optional<T> find(int id) {
+			optional<T> object;
 			string line;
 			ifstream file(fileURL);
 			while(getline(file, line)) {
-				if checkLine(id, line)
-					return readObject(line);
+				if (checkLine(id, line))
+					object = readObject(line);
 			}
-			return null;
+			return object;
 		}
 
-		vector<T> DAO::findAll() {
-			T object;
+		optionl<vector<T>> findAll() {
+			optional<T> object;
 			vector<T> objects;
+			string line;
 			ifstream file(fileURL);
 			while(getline(file, line)) {
 				object = readObject(line);
-				if (object != null)
-					objects.push_back(object);
+				if (object.has_value())
+					objects.push_back(object.value());
 			}
 			return objects;
 		}
 
-		bool DAO::delete(T* object) {
+
+		// Hacer que devuelva un bool si no salen excepciones
+		/**
+		 * Removes the line associated with an object (solely based on the id).
+		*/
+		void deletion(T object) {
 			int id = object.getId();
-			string dataLine = dataLine(id);
-			if (dataLine == null) return false;
-			return removeLine(dataLine);
+			optional<string> resultLine = dataLine(id);
+			if (!resultLine.has_value()) return;
+			removeLine(resultLine.value());
 		}
 
 		/**
@@ -52,42 +63,52 @@ class DAO {
 		 * */
 		void update(T object) {
 			int id = object.getId();
-			string dataLine = dataLine(id);
-			if (dataLine != null)
-				removeLine(dataLine);
+			optional<string> resultLine = dataLine(id);
+			if (resultLine.has_value())
+				removeLine(resultLine.value());
 			writeObject(object);
 		}
 
+		// There needs to be a way of checking
+		// if the id already exists on the database,
+		// I don't think this can be managed from Employee
+		// constructor.
 		void create (T object) {
-			ofstream file(fileURL);
-			file << object.print() << endl;
+			writeObject(object);
 		}
 
+		int maxId() {
+			string line;
+			int max = 0;
+			ifstream file(fileURL);
+			regex r("(\\d+).*");
+			smatch m;
+			while(getline(file, line)) {
+				if(!m.empty())
+					if(m[1] > max)
+						max = m[1];
+			}
+			return max;
+		}
 	protected:
         string fileURL;
-        loadData(string fileURL);
-        virtual T readObject(string line) = 0;
-        string dataLine(int id) {
+        
+        virtual optional<T*> readObject(string line) = 0;
+        optional<string> dataLine(int id) {
+        	optional<string> dataLine;
         	string line;
         	ifstream file(fileURL);
         	while(getline(file, line)) {
-        		if checkLine(id, line)
-        			return line;
+        		if (checkLine(id, line))
+        			dataLine = line;
         	}
+        	return dataLine;
         }
         bool checkLine(int id, string line) {
         	regex r(to_string(id) + "\\s.*");
         	return regex_search(line, r);
-        }
-        vector<string> separateWords(string command) {
-        	vector<string> words;
-        	stringstream ss(command);
-        	string word;
-        	while (ss >> word)
-        		words.push_back(word);
-        	return words;
-        }    
-        bool removeLine(string dataLine) {
+        }  
+        void removeLine(string dataLine) {
 			ifstream file(fileURL);
 		    ofstream temp;
 		    temp.open("temp8647509834758.txt");
@@ -99,12 +120,12 @@ class DAO {
 		    }
 		    temp.close();
 		    file.close();
-		    remove(fileURL);
-		    rename("temp8647509834758.txt", fileURL);
+		    remove(fileURL.c_str());
+		    rename("temp8647509834758.txt", fileURL.c_str());
 		}
 		void writeObject(T object) {
-			ofstream file(fileURL);
-			file << object.print() << endl;
+			ofstream file(fileURL, ios::app);
+			file << object.toString() << endl;
 		}
 };
 #endif

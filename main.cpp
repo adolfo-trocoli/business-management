@@ -1,17 +1,16 @@
+#include "Department.h"
+#include "DepartmentDAO.h"
+#include "Employee.h"
+#include "EmployeeDAO.h"
+#include "DAO.h"
+#include "Controller.h"
+#include "CommandReader.h"
 #include <iostream>
 #include <string>
-#include "Department.h"
-#include "Employee.h"
-using namespace std;
 
-int main(int argc, char **argv) {
-    Controller controller();
-    DepartmentDAO dptDAO();
-    EmployeeDAO empDAO();
-    string command;
-    while (command != "close" && command != "exit") {
-        
-    }
-    return 0;
+int main(int argc, char** argv) {
+
+    // Leer comando de consola
+    // 
+
 }
-
