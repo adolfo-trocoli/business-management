@@ -1,6 +1,7 @@
 #include "Controller.h"
 using namespace std;
 
+// Singleton constructor ------------------
 Controller* Controller::controller = nullptr;
 Controller::Controller(string employeeFile, string departmentFile, Helper& helper) {
 	EmployeeDAO e(employeeFile);
@@ -14,6 +15,8 @@ static Controller *Controller::getInstance(string employeeFile, string departmen
 		controller = new Controller(employeeFile, departmentFile);
 	return controller;
 }
+
+// Public member functions ----------------
 Employee* Controller::findEmployee(int id) {
 	optional<Employee> e = empDAO.find(id);
 	if (e.has_value())
