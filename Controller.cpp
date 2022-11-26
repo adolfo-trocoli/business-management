@@ -2,15 +2,16 @@
 using namespace std;
 
 Controller* Controller::controller = nullptr;
-Controller::Controller(string employeeFile, string departmentFile) {
+Controller::Controller(string employeeFile, string departmentFile, Helper& helper) {
 	EmployeeDAO e(employeeFile);
 	DepartmentDAO d(departmentFile);
+	this->helper = helper;
 	empDAO = &e;
 	dptDAO = &d;
 };
-static Controller *Controller::getInstance(const string s) {
+static Controller *Controller::getInstance(string employeeFile, string departmentFile) {
 	if(controller == nullptr)
-		controller = new Controller(s);
+		controller = new Controller(employeeFile, departmentFile);
 	return controller;
 }
 Employee* Controller::findEmployee(int id) {

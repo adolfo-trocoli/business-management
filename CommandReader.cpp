@@ -7,6 +7,7 @@ using namespace std;
 
 CommandReader::CommandReader(Controller *controller) {
 	this->controller = controller;
+	exit_flag = false;
 }
 
 void CommandReader::readCommand() {
@@ -16,26 +17,26 @@ void CommandReader::readCommand() {
 	treatCommand(command);
 }
 
-/**
- * Checks if a command is valid. Returns a bool value indicating the status.
- */
-bool invalidCommand(string command) {
-	//TODO: comprobar lo de commands.end
-	bool valid = true;
-	if (commands.find(command) == commands.end()) {
-		cout << "Invalid <command!" << endl;
-		valid = false;
-	}
-	return valid;
-}
+bool CommandReader::exit() {return exit_flag;}
 
-void treatCommand(string command){
+void CommandReader::treatCommand(string command){
 	vector<string> words = separateWords(command);
-	if invalidCommand(words[0]) return;
+	Command command_case = resolveCommand(words[0]);
+	switch(command_case) {
+		case COMMAND_ERROR:
+			errorMessage(command);
+			return;
+		case EXIT:
+			exit_flag = true;
+			return;
+	}
+	
 	unordered_map<string, string> arguments = extractArguments(command);		
+	selectControllerCall(command_case, arguments);
 }
 
-vector<string> separateWords(string command) {
+
+vector<string> CommandReader::separateWords(string command) {
 	vector<string> words;
 	stringstream ss(command);
 	string word;
@@ -44,7 +45,23 @@ vector<string> separateWords(string command) {
 	return words;
 }
 
-unordered_map<string, string> extractArguments(std::string command) {
+Command CommandReader::resolveCommand(string commandFirstWord) {
+	if(commandFirstWord == "add") return ADD;
+	if(commandFirstWord == "dptadd") return DPTADD;
+	if(commandFirstWord == "dptedit") return DPTEDIT;
+	if(commandFirstWord == "dptls") return DPTLS;
+	if(commandFirstWord == "dptremove") return DPTREMOVE;
+	if(commandFirstWord == "edit") return EDIT;
+	if(commandFirstWord == "help") return HELP;
+	if(commandFirstWord == "ls") return LS;
+	if(commandFirstWord == "remove") return REMOVE;
+	if(commandFirstWord == "show") return SHOW;
+	if(commandFirstWord == "exit") return EXIT;
+	if(commandFirstWord == "close") return EXIT;
+	return COMMAND_ERROR;
+}
+
+unordered_map<string, string> CommandReader::extractArguments(std::string command) {
 	const string s = "add -n Adolfo -d 30";
 	unordered_map<string, string> hashMap;
  	vector<string> flagArgumentPairs;
@@ -65,6 +82,46 @@ unordered_map<string, string> extractArguments(std::string command) {
     	if(regex_search(argument, m, flag_argument_regex))
     		hashMap.insert({m[1], m[2]});
     }
+    return hashMap;
+}
+
+void CommandReader::selectControllerCall(Command command_case, unordered_map<string, string> arguments) {
+	switch (command_case) {
+		case(HELP):
+			callDisplayHelp();
+			break;
+		case(ADD):
+			callCreateEmployee(arguments);
+			break;
+		case(DPTDD):
+			callCreateDepartment(arguments);
+			break;
+		case(REMOVE):
+			callRemoveEmployee(arguments);
+			break;
+		case(DPTREMOVE):
+			callRemoveDepartment(arguments);
+			break;
+		case(EDIT):
+			callUpdateEmployee(arguments);
+			break;
+		case(DPTEDIT):
+			callUpdateDepartment(arguments);
+			break;
+		case(LS):
+			callLs(arguments);
+			break;
+		case(DPTLS):
+			callDPTLS(arguments);
+			break;
+		case(SHOW):
+			controller->callshow(arguments);
+			break;
+	}
+}
+
+void CommandReader::callCreateEmployee(unordered_map<string, string> arguments) {
+
 }
 
 
