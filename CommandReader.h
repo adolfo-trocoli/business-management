@@ -11,29 +11,29 @@ class CommandReader {
 		CommandReader(Controller *controller);
 		void readCommand();
 		bool exit() const;
+		
+	private:
 		Controller* controller;
 		bool exit_flag;
 
-		enum Command {
-			COMMAND_ERROR,
-			EXIT,
-			HELP,
-			ADD,
-			DPTADD,
-			REMOVE,
-			DPTREMOVE,
-			EDIT,
-			DPTEDIT,
-			LS,
-			DPTLS,
-			SHOW
-		};
 		void errorMessage(std::string command);
 		void treatCommand(std::string command);
 		vector<string> separateWords(std::string command);
 		Command resolveCommand(std::string commandFirstWord);
 		unordered_map<std::string, std::string> extractArguments(std::string command);
 		void selectControllerCall(Command command_case, unordered_map<string, string> arguments);
+	
+		enum Command {
+			COMMAND_ERROR,
+			EXIT,
+			HELP,
+			ADD,
+			REMOVE,
+			EDIT,
+			LS,
+			DPTLS,
+			SHOW
+		};
 };
 
 #endif

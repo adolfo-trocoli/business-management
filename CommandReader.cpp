@@ -69,8 +69,8 @@ unordered_map<string, string> CommandReader::extractArguments(std::string comman
 	const string s = "add -n Adolfo -d 30";
 	unordered_map<string, string> hashMap;
  	vector<string> flagArgumentPairs;
-    regex words_regex("-[a-zA-Z]+\\s\\w+"); 
-    regex flag_argument_regex("-([a-zA-Z]+)\\s(\\w+)");
+    regex words_regex("-[a-zA-Z]+\\s\\w*[\\s\\n]"); 
+    regex flag_argument_regex("-([a-zA-Z]+)\\s(\\w*)[\\s\\n]");
     smatch m; // Used in separation
     // Selects all matches to the regex
     auto words_begin = sregex_iterator(s.begin(), s.end(), words_regex);
@@ -97,7 +97,7 @@ void CommandReader::selectControllerCall(Command command_case, unordered_map<str
 		case(ADD):
 			callCreateEmployee(arguments);
 			break;
-		case(DPTDD):
+		case(DPTADD):
 			callCreateDepartment(arguments);
 			break;
 		case(REMOVE):
@@ -115,18 +115,12 @@ void CommandReader::selectControllerCall(Command command_case, unordered_map<str
 		case(LS):
 			callLs(arguments);
 			break;
-		case(DPTLS):
-			callDPTLS(arguments);
-			break;
-		case(SHOW):
-			controller->callshow(arguments);
-			break;
 	}
 }
 
 // Mirar si unificar los comandos de empleados y departamentos
 
-void callDisplayHelp(unordered_map<string, string> arguments) {
+void CommandReader::callDisplayHelp(unordered_map<string, string> arguments) {
 	if(arguments.find("c") != arguments.end())
 		controller->displayHelp(arguments["c"]);
 	else
@@ -134,10 +128,102 @@ void callDisplayHelp(unordered_map<string, string> arguments) {
 }
 
 void CommandReader::callCreateEmployee(unordered_map<string, string> arguments) {
-	if(arguments.find("d") != arguments.end())
-		if(arguments.find("c") != arguments.end())
-
+	bool name = (arguments.find("n") != arguments.end());
+	bool department = (arguments.find("d") != arguments.end());
+	if(name) {
+		if(department)
+			controller->createEmployee(arguments["n"]), stoi(arguments["i"]);
+		else
+			controller->createEmployee(arguments["n"]);
+		return;
+	} else
+		controller->createEmployee();
 }
+
+void CommandReader::callCreateDepartment(unordered_map<string, string> arguments) {
+	bool name = (arguments.find("n") != arguments.end());
+	bool sells = (arguments.find("s") != arguments.end());
+	bool managerId = (arguments.find("m") != arguments.end());
+	if(name) {
+		if(sells) {
+			if(managerId)
+				controller->createDepartment(arguments["n"], stoi(arguments["s"]), stoi(arguments["m"]));
+			else
+				controller->createDepartment(arguments["n"], stoi(arguments["s"]));
+			return;
+		} else
+			controller->createDepartment(arguments["n"]);
+		return;
+	} else
+		controller->createDepartment();
+}
+
+
+bool CommandReader::callRemoveEmployee(unordered_map<string, string> arguments) {
+		if (arguments.find("i") == arguments.end()) return false;
+		controller->removeEmployee(stoi(aguments["i"]));
+		return true;
+}
+
+bool CommandReader::callRemoveDepartment(unordered_map<string, string> arguments) {
+		if (arguments.find("i") == arguments.end()) return false;
+		controller->removeDepartment(stoi(aguments["i"]));
+		return true;
+}
+
+bool CommandReader::callUpdateEmployee(unordered_map<string, string> arguments) {
+	bool id = (arguments.find("i") != arguments.end());
+	bool name = (arguments.find("n") != arguments.end());
+	bool departmentId = (arguments.find("d") != arguments.end());
+	if(id) {
+		if(name) {
+			if(department)
+				controller->updateEmployee(stoi(arguments["i"]), arguments["n"], arguments["d"]);
+			else
+				controller->updateEmployee(stoi(arguments["i"]), arguments["n"]);
+			return true;
+		} else
+			controller->updateEmployee(stois(arguments["i"]));
+		return true;
+	} else
+		return false;
+}
+
+bool CommandReader::callUpdateDepartment(unordered_map<string, string> arguments) {
+	bool id = (arguments.find("i") != arguments.end());
+	bool name = (arguments.find("n") != arguments.end());
+	bool sells = (arguments.find("s") != arguments.end());
+	bool managerId = (arguments.find("m") != arguments.end());
+	if(id) {
+		if(name) {
+			if(sells) {
+				if(managerId)
+					controller->updateDepartment(stoi(arguments["i"]), arguments["n"], stoi(arguments["s"])), stoi(arguments["m"]);
+				else
+					controller->updateDepartment(stoi(arguments["i"]), arguments["n"], stoi(arguments["s"]));
+				return true;
+			} else
+				controller->updateDepartment(stoi(arguments["i"]), arguments["n"]);
+			return true;
+		}
+	} else
+		return false;		
+}
+
+void CommandReader::callLs(unordered_map<string, string> arguments) {
+	bool employees = (arguments.find("e") != arguments.end());
+	bool departments = (arguments.find("d") != arguments.end());
+	if(employess)
+		controller->lsEmployees();
+	if(departments)
+		controller->lsDepartments();
+}
+
+void CommandReader::callShow(unordered_map<string, string> arguments) {
+	controller->show();
+}
+
+
 
 
 

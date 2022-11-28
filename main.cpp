@@ -40,10 +40,10 @@ int main(int argc, char** argv) {
         cout << "Clave: " << kv.first << "\t";
         cout << "Valor: " << kv.second << endl;
     }
-    // string command = "";
-    // while (!reader.exit()) {
-    //     reader.readCommand();        
-    // }
+
+    while (!reader.exit()) {
+        reader.readCommand();        
+    }
 }
 
 /**
@@ -55,7 +55,7 @@ unordered_map<string, string> loadConfiguration(int argc, char** argv) {
     config_file = (argc > 1) ? argv[1] : DEFAULT_CONFIG_FILE;
     ifstream file(config_file);
     string line;
-    regex r("([\\w-_.]+):([\\w.-_]*)");
+    regex r("([\\w-_.]+)=([\\w.-_]*)");
     smatch m;
     while(getline(line, config_file)) {
         if(line.at(0) == '#')

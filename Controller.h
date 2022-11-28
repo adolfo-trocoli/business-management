@@ -21,22 +21,24 @@ class Controller {
         Controller(Controller &other) = delete; // Singleton objects should not be cloneable.
         static Controller *getInstance(std::string employeeFile, std::string departmentFile, Helper& helper);
         
-        // Métodos de negocio como listar, show, calculos, etc....
+        // Bussiness Methods
         void displayHelp();
         void displayHelp(std::string command);
-
+        void lsEmployess();
+        void lsDepartments();
         void show();
 
+        // DB Related methods
         optional<Employee*> findEmployee(int id);
         optional<vector<Employee*>> findEmployees();        
-        void createEmployee(std::string name, int departmentId);
-        void removeEmployee(Employee employee);
-        void updateEmployee(Employee employee);
+        void createEmployee(std::string = "DefaultName", int departmentId = 0);
+        void removeEmployee(int id);
+        void updateEmployee(int id, string name = "DefaultName", int departmentId = 0);
 
         optional<Department*> findDepartment(int id);
         optional<vector<Department*>> findDepartments();
-        void createDepartment(std::string name, int sells, int managerId);
-        void removeDepartment(Department dpt);
-        void updateDepartment(Department dpt);
+        void createDepartment(std::string name = "DefaultName", int sells = 0, int managerId = 0);
+        void removeDepartment(int it);
+        void updateDepartment(int id, string name = "DefaultName", int sells = 0, int managerId = 0);
 };
 #endif
