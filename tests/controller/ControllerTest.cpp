@@ -16,7 +16,7 @@
 #include <iostream>
 using namespace std;
 
-std::unordered_map<std::string, std::string> CONFIG_PARAM_MAP{{"help_file", HELP_FILE}, {"employee_file", EMPLOYEES_FILE}, {"department_file", DEPARTMENTS_FILE}};
+std::unordered_map<std::string, std::string> CONFIG_PARAM_MAP{{"help_file", HELP_FILE}, {"employee_file", EMPLOYEES_FILE}, {"department_file", DEPARTMENTS_FILE}, {"add_help_file", ADD_HELP_FILE}};
 
 unordered_map<string, string> loadConfiguration(int argc, char** argv, set<string> configs);
 int testCounter = 0;
@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
     Helper helper(CONFIG_PARAM_MAP);
     controller = Controller::getInstance(employee_filename, department_filename, helper);
     test_result_message(run_tests());
+    controller->lsDepartments();
     removeTestFiles();
     return 0;
 }
@@ -79,6 +80,7 @@ void prepareTestFiles() {
     prepareTestFile(EMPLOYEES_FILE, EMPLOYEES_FILE_CONTENT);
     prepareTestFile(DEPARTMENTS_FILE, DEPARTMENTS_FILE_CONTENT);
     prepareTestFile(HELP_FILE, HELP_FILE_CONTENT);
+    prepareTestFile(ADD_HELP_FILE, ADD_HELP_FILE_CONTENT);
     prepareTestFile(CONFIG_FILE, CONFIG_FILE_CONTENT);
 }
 
@@ -88,14 +90,15 @@ void run_test(string test_name, bool (*test)()) {
 }
 
 string output_result(string test_name, bool result) {
-    string pass_fail = (result) ? "pass" : "fail";
-    return test_name + ": " + pass_fail;     
+    string pass_fail = (result) ? "\033[1;32mpass\033[0m" : "\033[1;31mfail\033[0m";
+    return "[+] " + test_name + ": " + pass_fail;     
 }
 
 void removeTestFiles() {
     remove(EMPLOYEES_FILE.c_str());
     remove(DEPARTMENTS_FILE.c_str());
     remove(HELP_FILE.c_str());
+    remove(ADD_HELP_FILE.c_str());
     remove(CONFIG_FILE.c_str());
 }
 
@@ -134,7 +137,7 @@ bool test_displayHelp() {
     ostringstream strCout; // New output stream to store output in a string object
     cout.rdbuf(strCout.rdbuf()); // Changing default output for cout
     controller->displayHelp(); // Output goes to strCout
-    cout.rdbuf(oldCoutStreamBuf); // Restore old cout.
+    cout.rdbuf(oldCoutStreamBuf); // restore old cout.
     command_output = strCout.str();
     return assert(command_output == "<some help here>");
 }
@@ -183,30 +186,28 @@ bool test_findEmployee() {
 bool test_findEmployees() {
     vector<Employee*> employees = controller->findEmployees();
     for(int i = 1; i <= 10; i++)
-        if(employees[i-1]->getId() != i){
-            cout << i << endl;
+        if(employees[i-1]->getId() != i)
             return fail();
-        }
     return true;
 }
 
 bool test_createEmployee() {
-    if(controller->createEmployee("Employee<Non-existent-dpt-id>", 100)) return fail();
-    controller->createEmployee("Employee<Valid>", 5);
+    if(controller->createEmployee("InvalidEmployee", 100)) return fail();
+    controller->createEmployee("ValidEmployee", 5);
     if(!controller->findEmployee(11).has_value()) return fail();
     return assert(controller->findEmployee(11).value()->getDptId() == 5);
 }
 
 bool test_removeEmployee() {
-    controller->removeEmployee(1);
-    optional<Employee*> employee = controller->findEmployee(1);
+    controller->removeEmployee(6);
+    optional<Employee*> employee = controller->findEmployee(6);
     if(employee.has_value()) return fail();
     return true; 
 }
 
 bool test_updateEmployee() {
-    if(controller->updateEmployee(9, "Employee.Invalid-DptId", 700)) return fail();
-    if(!controller->updateDepartment(9, "Employee.Valid", 2)) return fail();
+    if(controller->updateEmployee(9, "InvalidEmployee", 700)) return fail();
+    if(!controller->updateEmployee(9, "ValidEmployee", 2)) return fail();
     optional<Employee*> emp = controller->findEmployee(9);
     if(!emp.has_value()) return fail();
     return assert(emp.value()->getDptId() == 2);
@@ -229,8 +230,8 @@ bool test_findDepartments() {
 }
 
 bool test_createDepartment() {
-    if(controller->createDepartment("Department<Non-existent-manager-id>", 1000, 696)) return fail();
-    controller->createDepartment("Department<Valid>", 1000, 5);
+    if(controller->createDepartment("InvalidDepartment", 1000, 696)) return fail();
+    controller->createDepartment("ValidDepartment", 1000, 5);
     if(!controller->findDepartment(11).has_value()) return fail();
     return assert(controller->findDepartment(11).value()->getManagerId() == 5);
 }
@@ -242,11 +243,10 @@ bool test_removeDepartment() {
 }
 
 bool test_updateDepartment() {
-    if(controller->updateDepartment(9, "Dpt.Invalid-ManagerId", 700)) return fail();
-    if(!controller->updateDepartment(9, "Dpt.UpdateDepartment", 2)) return fail();
+    if(controller->updateDepartment(9, "DptInvalid-ManagerId", 1000, 700)) return fail();
+    if(!controller->updateDepartment(9, "DptUpdateDepartment", 1000, 2)) return fail();
+    controller->lsDepartments();
     optional<Department*> dpt = controller->findDepartment(9);
     if(!dpt.has_value()) return fail();
     return assert(dpt.value()->getManagerId() == 2);
 }
-
-

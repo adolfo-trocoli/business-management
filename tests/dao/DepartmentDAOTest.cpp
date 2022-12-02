@@ -26,19 +26,19 @@ bool test_idExists(DepartmentDAO& dptDAO);
 int main() {
 	prepareTestFile();
 	string message;
-	DepartmentDAO dptDAO(DEPARTMENTS_FILENAME);
+	DepartmentDAO dptDAO(DEPARTMENTS_FILE);
 	if (run_tests(dptDAO))
 		message = "\033[1;32mSuccessful test run: " + to_string(testCounter) + " tests passed\033[0m";
 	else 
 		message = "\033[1;31mResult: " + to_string(failCounter) + " tests failed\033[0m";
 	cout << message << endl;
-	remove(DEPARTMENTS_FILENAME.c_str());
+	remove(DEPARTMENTS_FILE.c_str());
 	return 0;
 }
 
 void prepareTestFile() {
 	ofstream file;
-	file.open(DEPARTMENTS_FILENAME, ofstream::trunc);
+	file.open(DEPARTMENTS_FILE, ofstream::trunc);
 	file << DEPARTMENTS_FILE_CONTENT;
 	file.close();
 }

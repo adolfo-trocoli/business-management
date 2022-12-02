@@ -5,8 +5,9 @@
 #include <fstream>
 #include <regex>
 #include <optional>
+// debug
+#include <iostream>
 using namespace std;
-
 /**
  * DAO template class used as a Persistence API to a simple database implemented
  * with a file text for each class that has to be persisted. It is an abstract
@@ -68,10 +69,6 @@ class DAO {
 			writeObject(object);
 		}
 
-		// There needs to be a way of checking
-		// if the id already exists on the database,
-		// I don't think this can be managed from Employee
-		// constructor.
 		void create (T object) {
 			writeObject(object);
 		}
@@ -84,7 +81,7 @@ class DAO {
 			smatch m;
 			while(getline(file, line)) {
 				if(regex_search(line, m, r))
-					if(m[1] > max)
+					if(stoi(m[1]) > max)
 						max = stoi(m[1]);
 			}
 			return max;
@@ -105,18 +102,18 @@ class DAO {
         string fileURL;
         
         virtual optional<T*> readObject(string line) = 0;
+        
         optional<string> dataLine(int id) {
         	optional<string> dataLine;
         	string line;
         	ifstream file(fileURL);
-        	while(getline(file, line)) {
+        	while(getline(file, line))
         		if (checkLine(id, line))
         			dataLine = line;
-        	}
         	return dataLine;
         }
         bool checkLine(int id, string line) {
-        	regex r(to_string(id) + "\\s.*");
+        	regex r("^" + to_string(id) + "\\s.*");
         	return regex_search(line, r);
         }  
         void removeLine(string dataLine) {
@@ -137,6 +134,7 @@ class DAO {
 		void writeObject(T object) {
 			ofstream file(fileURL, ios::app);
 			file << object.toString() << endl;
+			file.close();
 		}
 };
 #endif

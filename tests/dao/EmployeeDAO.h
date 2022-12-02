@@ -13,7 +13,7 @@ class EmployeeDAO:
 	protected:
 		optional<Employee*> readObject(string line) {
 			optional<Employee*> employee;
-			regex r("(\\d+)\\s\"([\\w\\s]+)\"\\s(\\d+)");
+			regex r("(\\d+)\\s\"([\\w\\s.-_?]+)\"\\s(\\d+)");
 			smatch m;
 			if(regex_search(line, m, r))
 				employee = new Employee(stoi(m[1]), m[2], stoi(m[3]));

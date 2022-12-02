@@ -17,11 +17,11 @@ Controller *Controller::getInstance(string employeeFile, string departmentFile, 
 
 // --- Bussiness public member functions ---
 void Controller::displayHelp() {
-	helper.help();
+	cout << helper.help();
 }
 
 void Controller::displayHelp(string command) {
-	helper.help(command);
+	cout << helper.help(command);
 }
 
 // Yet to be added most features
@@ -46,8 +46,8 @@ vector<Employee*> Controller::findEmployees() {
 	return empDAO->findAll();
 }        
 bool Controller::createEmployee(std::string name, int departmentId) {
-	int id = selectEmployeeId();
 	if(!checkDptId(departmentId)) return false;
+	int id = selectEmployeeId();
 	Employee employee(id, name, departmentId);
 	empDAO->create(employee);
 	return true;
@@ -68,8 +68,8 @@ vector<Department*> Controller::findDepartments() {
 	return dptDAO->findAll();
 }        	
 bool Controller::createDepartment(std::string name, int sells, int managerId) {
-	int id = selectDepartmentId();
 	if(!checkManagerId(managerId)) return false;
+	int id = selectDepartmentId();
 	Department department(id, name, sells, managerId);
 	dptDAO->create(department);
 	return true;
@@ -87,11 +87,11 @@ bool Controller::updateDepartment(int id, string name, int sells, int managerId)
 // --- Private member functions ---
 // No sé si hacer uno para empleados y departamentos o uno para cada uno
 int Controller::selectEmployeeId() {
-	return empDAO->maxId();
+	return empDAO->maxId() + 1;
 }
 
 int Controller::selectDepartmentId() {
-	return dptDAO->maxId();
+	return dptDAO->maxId() + 1;
 }
 
 bool Controller::checkManagerId(int id) {

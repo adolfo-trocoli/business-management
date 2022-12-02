@@ -30,19 +30,19 @@ bool test_idExists(EmployeeDAO& empDAO);
 int main() {
 	prepareTestFile();
 	string message;
-	EmployeeDAO empDAO(EMPLOYEES_FILENAME);
+	EmployeeDAO empDAO(EMPLOYEES_FILE);
 	if (run_tests(empDAO))
 		message = "\033[1;32mSuccessful test run: " + to_string(testCounter) + " tests passed\033[0m";
 	else 
 		message = "\033[1;31mResult: " + to_string(failCounter) + " tests failed\033[0m";
 	cout << message << endl;
-	remove(EMPLOYEES_FILENAME.c_str());
+	remove(EMPLOYEES_FILE.c_str());
 	return 0;
 }
 
 void prepareTestFile() {
 	ofstream file;
-	file.open(EMPLOYEES_FILENAME, ofstream::trunc);
+	file.open(EMPLOYEES_FILE, ofstream::trunc);
 	file << EMPLOYEES_FILE_CONTENT;
 	file.close();
 }

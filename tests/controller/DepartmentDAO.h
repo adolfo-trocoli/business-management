@@ -13,7 +13,7 @@ class DepartmentDAO:
 	protected:
 		optional<Department*> readObject(string line) {
 			optional<Department*> department;
-			regex r("(\\d+)\\s\"([\\w\\s]+)\"\\s(\\d+)\\s(\\d+)");
+			regex r("(\\d+)\\s\"([\\w\\s.-_?]+)\"\\s(\\d+)\\s(\\d+)");
 			smatch m;
 			if(regex_search(line, m, r)) {
 				department = new Department(stoi(m[1]), m[2], stoi(m[3]), stoi(m[4]));
