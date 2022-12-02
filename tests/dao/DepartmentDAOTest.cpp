@@ -1,5 +1,6 @@
 #include "Department.h"
 #include "DepartmentDAO.h"
+#include "../testConstants.h"
 #include <optional>
 #include <fstream>
 #include <string>
@@ -9,20 +10,8 @@ using namespace std;
 
 int testCounter = 0;
 int failCounter = 0;
-const string tempFileName = "test_temp_file.txt";
-const string fileContent =
-"1 \"Department 1\" 1500 101\n"
-"2 \"Department 2\" 1500 102\n"
-"3 \"Department 3\" 1500 103\n"
-"4 \"Department 4\" 1500 104\n"
-"5 \"Department 5\" 1500 105\n"
-"6 \"Department 6\" 1500 106\n"
-"7 \"Department 7\" 1500 107\n"
-"8 \"Department 8\" 1500 108\n"
-"9 \"Department 9\" 1500 109\n"
-"10 \"Department 10\" 1500 110\n";
 
-void prepareTestFile(string fileName);
+void prepareTestFile();
 bool run_tests(DepartmentDAO& dptDAO);
 void run_test(string test_name, DepartmentDAO& dptDAO, bool (*test)(DepartmentDAO&));
 string output_result(string test_name, bool result);
@@ -35,22 +24,22 @@ bool test_maxId(DepartmentDAO& dptDAO);
 bool test_idExists(DepartmentDAO& dptDAO);
 
 int main() {
-	prepareTestFile(tempFileName);
+	prepareTestFile();
 	string message;
-	DepartmentDAO dptDAO(tempFileName);
+	DepartmentDAO dptDAO(DEPARTMENTS_FILENAME);
 	if (run_tests(dptDAO))
 		message = "\033[1;32mSuccessful test run: " + to_string(testCounter) + " tests passed\033[0m";
 	else 
 		message = "\033[1;31mResult: " + to_string(failCounter) + " tests failed\033[0m";
 	cout << message << endl;
-	remove(tempFileName.c_str());
+	remove(DEPARTMENTS_FILENAME.c_str());
 	return 0;
 }
 
-void prepareTestFile(string fileName) {
+void prepareTestFile() {
 	ofstream file;
-	file.open(tempFileName, ofstream::trunc);
-	file << fileContent;
+	file.open(DEPARTMENTS_FILENAME, ofstream::trunc);
+	file << DEPARTMENTS_FILE_CONTENT;
 	file.close();
 }
 
