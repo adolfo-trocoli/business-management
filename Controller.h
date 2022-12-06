@@ -10,7 +10,6 @@
 class Controller {
     protected:
         static Controller* controller;
-        int pepe = 3;
         Helper& helper;
         EmployeeDAO* empDAO;
         DepartmentDAO* dptDAO;
@@ -31,13 +30,13 @@ class Controller {
         void lsDepartments();
 
         // DB Related methods
-        optional<Employee*> findEmployee(int id);
+        void showEmployee(int id);
         vector<Employee*> findEmployees();        
         bool createEmployee(std::string = "DefaultName", int departmentId = 0);
         void removeEmployee(int id);
         bool updateEmployee(int id, string name = "DefaultName", int departmentId = 0);
 
-        optional<Department*> findDepartment(int id);
+        void showDepartment(int id);
         vector<Department*> findDepartments();
         bool createDepartment(std::string name = "DefaultName", int sells = 0, int managerId = 0);
         void removeDepartment(int it);
