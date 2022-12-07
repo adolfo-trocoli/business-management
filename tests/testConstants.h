@@ -4,6 +4,7 @@
 const std::string CONFIG_FILE = "test_temp_config.txt";
 const std::string HELP_FILE = "test_temp_help.txt";
 const std::string ADD_HELP_FILE = "test_temp_add_help.txt";
+const std::string DELETE_HELP_FILE("delete_help.txt");
 const std::string EMPLOYEES_FILE("test_temp_employees.txt");
 const std::string DEPARTMENTS_FILE = 
 "test_temp_departments.txt";

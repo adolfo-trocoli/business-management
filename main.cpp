@@ -22,11 +22,10 @@ int main(int argc, char** argv) {
 
     signal(SIGINT, signalHandler);
     set<string> db_configs = {"employee_file", "department_file"};
-    unordered_map<string, string> helper_params = loadConfiguration(argc, argv);
-    unordered_map<string, string> db_params = loadConfiguration(argc, argv, db_configs);
+    unordered_map<string, string> config_params = loadConfiguration(argc, argv);
     
-    // Helper helper(helper_params);
-    Controller* controller = Controller::getInstance(db_params["employee_file"], db_params["department_file"], helper);
+    Helper helper(helper_params);
+    Controller* controller = Controller::getInstance(config_params["employee_file"], config_params["department_file"], helper);
     CommandReader reader(controller);
 
     for(auto kv:helper_params){
@@ -62,29 +61,6 @@ unordered_map<string, string> loadConfiguration(int argc, char** argv) {
             continue;
         if(regex_search(line, m, r))
             config_param_map.insert({m[1], m[2]})
-    }
-}
-
-/**
- * Returns the pairs of configurations requested in the set "configs".
- */
-unordered_map<string, string> loadConfiguration(int argc, char** argv, set<string> configs) {
-    unordered_map<string, string> config_param_map;
-    string config_file;
-    if(argc > 1)
-        config_file = argv[1];
-    else
-        config_file = Helper::CONFIG_FILE;
-    ifstream file config_file);
-    string line;
-    regex r("(\\w+):(\\w*)");
-    smatch m;
-    while(getline(line, config_file)) {
-        if(line.at(0) == '#')
-            continue;
-        if(regex_search(line, m, r))
-            if(configs.find(m[1]) != configs.end())
-                config_param_map.insert({m[1], m[2]})
     }
 }
 

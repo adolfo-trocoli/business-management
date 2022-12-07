@@ -42,9 +42,12 @@ void Controller::lsDepartments() {
 void Controller::showEmployee(int id) {
 	optional<Employee*> e = empDAO->find(id); 
 	if(e.has_value()) 
-		cout << e.toString() << endl;
+		cout << e.value()->toString() << endl;
 	else 
 		cout << "No employee found for id: " << to_string(id) << endl;
+}
+optional<Employee*> Controller::findEmployee(int id) {
+	return empDAO->find(id);
 }
 vector<Employee*> Controller::findEmployees() {
 	return empDAO->findAll();
@@ -65,10 +68,13 @@ bool Controller::updateEmployee(int id, string name, int departmentId) {
 	empDAO->update(employee);
 	return true;
 }
+optional<Department*> Controller::findDepartment(int id) {
+	return dptDAO->find(id);
+}
 void Controller::showDepartment(int id) {
 	optional<Department*> d = dptDAO->find(id); 
 	if(d.has_value())
-		cout << e.toString() << endl;
+		cout << d.value()->toString() << endl;
 	else 
 		cout << "No department found for id: " << to_string(id) << endl;
 }

@@ -31,15 +31,17 @@ class Controller {
 
         // DB Related methods
         void showEmployee(int id);
+        optional<Employee*> findEmployee(int id);
         vector<Employee*> findEmployees();        
         bool createEmployee(std::string = "DefaultName", int departmentId = 0);
         void removeEmployee(int id);
         bool updateEmployee(int id, string name = "DefaultName", int departmentId = 0);
 
         void showDepartment(int id);
+        optional<Department*> findDepartment(int id);
         vector<Department*> findDepartments();
         bool createDepartment(std::string name = "DefaultName", int sells = 0, int managerId = 0);
-        void removeDepartment(int it);
+        void removeDepartment(int id);
         bool updateDepartment(int id, string name = "DefaultName", int sells = 0, int managerId = 0);
 };
 #endif

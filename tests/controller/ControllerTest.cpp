@@ -5,7 +5,6 @@
 #include "DAO.h"
 #include "Controller.h"
 #include "../testConstants.h"
-// #include <iostream>
 #include <string>
 #include <fstream>
 #include <unordered_map>
@@ -35,11 +34,13 @@ bool test_displayHelp();
 bool test_displayHelpCommand();
 bool test_lsEmployees();
 bool test_lsDepartments();
+bool test_showEmployee();
 bool test_findEmployee();
 bool test_findEmployees();
 bool test_createEmployee();
 bool test_removeEmployee();
 bool test_updateEmployee();
+bool test_showDepartment();
 bool test_findDepartment();
 bool test_findDepartments();
 bool test_createDepartment();
@@ -55,8 +56,8 @@ int main(int argc, char** argv) {
     Helper helper(CONFIG_PARAM_MAP);
     controller = Controller::getInstance(employee_filename, department_filename, helper);
     test_result_message(run_tests());
-    controller->lsDepartments();
     removeTestFiles();
+    delete controller;
     return 0;
 }
 
@@ -108,11 +109,13 @@ bool run_tests() {
     run_test("test_displayHelpCommand", test_displayHelpCommand);
     run_test("test_lsEmployees", test_lsEmployees);
     run_test("test_lsDepartments", test_lsDepartments);
+    run_test("test_showEmployee", test_showEmployee);
     run_test("test_findEmployee", test_findEmployee);
     run_test("test_findEmployees", test_findEmployees);
     run_test("test_createEmployee", test_createEmployee);
     run_test("test_removeEmployee", test_removeEmployee);
     run_test("test_updateEmployee", test_updateEmployee);
+    run_test("test_showDepartment", test_showDepartment);
     run_test("test_findDepartment", test_findDepartment);
     run_test("test_findDepartments", test_findDepartments);
     run_test("test_createDepartment", test_createDepartment);
@@ -177,12 +180,24 @@ bool test_lsDepartments() {
 
 // -------------------------- Employees
 
+bool test_showEmployee() {
+    string command_output;
+    streambuf* oldCoutStreamBuf = cout.rdbuf(); // Store default output to restore later
+    ostringstream strCout; // New output stream to store output in a string object
+    cout.rdbuf( strCout.rdbuf() ); // Changing default output for cout
+    controller->showEmployee(10); // Output goes to strCout
+    cout.rdbuf( oldCoutStreamBuf ); // Restore old cout.
+    command_output = strCout.str();
+    return assert(command_output == "10 \"Employee 10\" 110\n");
+}
+
 bool test_findEmployee() {
-    optional<Employee*> e = controller->findEmployee(10);
+    optional<Employee*> e = controller->findEmployee(150);
+    if(e.has_value()) return fail();
+    e = controller->findEmployee(10);
     if(!e.has_value()) return fail();
     return assert(e.value()->getDptId() == 110);
 }
-
 bool test_findEmployees() {
     vector<Employee*> employees = controller->findEmployees();
     for(int i = 1; i <= 10; i++)
@@ -215,10 +230,23 @@ bool test_updateEmployee() {
 
 // ------------------ Departments
 
+bool test_showDepartment() {
+    string command_output;
+    streambuf* oldCoutStreamBuf = cout.rdbuf(); // Store default output to restore later
+    ostringstream strCout; // New output stream to store output in a string object
+    cout.rdbuf( strCout.rdbuf() ); // Changing default output for cout
+    controller->showEmployee(10); // Output goes to strCout
+    cout.rdbuf( oldCoutStreamBuf ); // Restore old cout.
+    command_output = strCout.str();
+    return assert(command_output == "10 \"Employee 10\" 110\n");
+}
+
 bool test_findDepartment() {
-    optional<Department*> e = controller->findDepartment(10);
-    if(!e.has_value()) return fail();
-    return assert(e.value()->getManagerId() == 110);
+    optional<Department*> d = controller->findDepartment(150);
+    if(d.has_value()) return fail();
+    d = controller->findDepartment(10);
+    if(!d.has_value()) return fail();
+    return assert(d.value()->getManagerId() == 110);
 }
 
 bool test_findDepartments() {
@@ -245,7 +273,6 @@ bool test_removeDepartment() {
 bool test_updateDepartment() {
     if(controller->updateDepartment(9, "DptInvalid-ManagerId", 1000, 700)) return fail();
     if(!controller->updateDepartment(9, "DptUpdateDepartment", 1000, 2)) return fail();
-    controller->lsDepartments();
     optional<Department*> dpt = controller->findDepartment(9);
     if(!dpt.has_value()) return fail();
     return assert(dpt.value()->getManagerId() == 2);
