@@ -12,13 +12,14 @@ CommandReader::CommandReader(Controller *controller) {
 void CommandReader::readCommand() {
 	string command;
 	cout << "$ ";
-	cin >> command;
+	getline(cin, command);
 	treatCommand(command);
 }
 
 bool CommandReader::exit() const {return exit_flag;}
 
 void CommandReader::treatCommand(string command){
+	if (command.empty()) return;
 	vector<string> words = separateWords(command);
 	Command command_case = resolveCommand(words[0]);
 	switch(command_case) {

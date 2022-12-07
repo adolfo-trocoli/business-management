@@ -49,6 +49,6 @@ string Helper::help(string command) {
 	if (file.good())
 		message << file.rdbuf();
 	else
-		message << "No help found for <" + command + ">";
+		message << "No help found for <" + command + ">" << endl;
 	return message.str();
 }
