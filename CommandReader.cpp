@@ -59,8 +59,6 @@ Command CommandReader::resolveCommand(string commandFirstWord) {
 	if(commandFirstWord == "dptremove") return DPTREMOVE;
 	if(commandFirstWord == "help") return HELP;
 	if(commandFirstWord == "ls") return LS;
-	if(commandFirstWord == "dptls") return DPTLS;
-	if(commandFirstWord == "show") return SHOW;
 	if(commandFirstWord == "exit") return EXIT;
 	if(commandFirstWord == "close") return EXIT;
 	return COMMAND_ERROR;
