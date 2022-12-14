@@ -16,6 +16,7 @@ bool run_tests();
 bool fail();
 bool assert(bool condition);
 
+bool test_empty_command();
 bool test_showDepartment();
 bool test_showEmployee();
 bool test_command_error();
@@ -69,6 +70,7 @@ string output_result(string test_name, bool result) {
 }
 
 bool run_tests() {
+	run_test("test_empty_command", test_empty_command);
 	run_test("test_command_error", test_command_error);
     run_test("test_displayHelp", test_displayHelp);
     run_test("test_showEmployee", test_showEmployee);
@@ -94,15 +96,24 @@ bool assert(bool condition) {
     return true;
 }
 
+bool test_empty_command() {
+	try {
+		reader->treatCommand("");
+	} catch(int num) {
+		return assert(num == 41);
+	}
+	return fail();
+}
+
 bool test_command_error() {
-	const string reader_input = "erroneusCommand";
 	string command_output;
-    streambuf* oldCoutStreamBuf = cout.rdbuf(); // Store default output to restore later
-    ostringstream strCout; // New output stream to store output in a string object
-    cout.rdbuf(strCout.rdbuf()); // Changing default output for cout
-    reader->treatCommand(reader_input); // Output goes to strCout
-    cout.rdbuf(oldCoutStreamBuf); // restore old cout.
-    command_output = strCout.str();
+	const string reader_input = "erroneusCommand";
+	streambuf* oldCoutStreamBuf = cout.rdbuf(); // Store default output to restore later
+	ostringstream strCout; // New output stream to store output in a string object
+	cout.rdbuf(strCout.rdbuf()); // Changing default output for cout
+	reader->treatCommand(reader_input); // Output goes to strCout
+	cout.rdbuf(oldCoutStreamBuf); // restore old cout.
+	command_output = strCout.str();
     return assert(command_output == "Incorrect command <erroneusCommand>\n");
 }
 
@@ -115,12 +126,22 @@ bool test_displayHelp() {
 }
 
 bool test_showEmployee() {
+	try {
+		reader->treatCommand("find");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string show_emp = "find -i 30";
 	reader->treatCommand(show_emp);
 	return assert(controller->show_emp());
 }
 
 bool test_showDepartment() {
+	try {
+		reader->treatCommand("dptfind");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string show_dpt = "dptfind -i 30";
 	reader->treatCommand(show_dpt);
 	return assert(controller->show_dpt());
@@ -130,7 +151,11 @@ bool test_createEmployee() {
 	const string add = "add";
 	const string name = "add -n Name";
 	const string department = "add -n Name -d 101";
-	reader->treatCommand(add);
+	try {
+		reader->treatCommand(add);
+	} catch (int err) {
+		if(err != 43) return fail();
+	}
 	reader->treatCommand(name);
 	reader->treatCommand(department);
 	return assert(controller->add() && controller->add_name() && controller->add_dpt());
@@ -140,22 +165,41 @@ bool test_createDepartment() {
 	const string name = "dptadd -n Name";
 	const string sells = "dptadd -n Name -s 1000";
 	const string managerId = "dptadd -n Name -s 5000 -m 505";
-	reader->treatCommand(name);
+	try {
+		reader->treatCommand(name);
+	} catch (int err) {
+		if(err != 43) return fail();
+	}
 	reader->treatCommand(sells);
 	reader->treatCommand(managerId);
 	return assert(controller->dptadd() && controller->dptadd_sells() && controller->dptadd_manager());
 }
 bool test_removeEmployee() {
+	try {
+		reader->treatCommand("remove");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string remove = "remove -i 105";
 	reader->treatCommand(remove);
 	return assert(controller->remove());
 }
 bool test_removeDepartment() {
+	try {
+		reader->treatCommand("dptremove");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string removeDpt = "dptremove -i 105";
 	reader->treatCommand(removeDpt);
 	return assert(controller->remove_dpt());
 }
 bool test_updateEmployee() {
+	try {
+		reader->treatCommand("edit");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string id = "edit -i 40";
 	const string name = "edit -i 40 -n Name";
 	const string dpt = "edit -i 40 -n Name -d 31";
@@ -165,6 +209,11 @@ bool test_updateEmployee() {
 	return assert(controller->up() && controller->up_name() && controller->up_dpt()); 
 }
 bool test_updateDepartment() {
+	try {
+		reader->treatCommand("dptedit");
+	} catch (int err) {
+		if(err != 44) return fail();
+	}
 	const string id = "dptedit -i 40";
 	const string name = "dptedit -i 40 -n Name";
 	const string sells = "dptedit -i 40 -n Name -s 3100";
@@ -176,7 +225,13 @@ bool test_updateDepartment() {
 	return assert(controller->dptup() && controller->dptup_name() 
 		&& controller->dptup_sells() && controller->dptup_manager()); 
 }
+	
 bool test_ls() {
+	try {
+		reader->treatCommand("ls");
+	} catch (int err) {
+		if(err != 45) return fail();
+	}
 	const string ls_e = "ls -e";
 	const string ls_d = "ls -d";
 	reader->treatCommand(ls_e);

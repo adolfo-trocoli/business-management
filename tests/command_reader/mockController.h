@@ -5,7 +5,6 @@
  * mockController used in CommandReaderTest to manage CLI for program.
  * 
  */
-typedef mockController Controller;
 class mockController {
     protected:
         mockController();

@@ -1,15 +1,15 @@
 #ifndef CommandReader_h
 #define CommandReader_h
 // for test: Substitute Controller for mockController and treatCommand from public to private
-// #include "mockController.h"
-#include "Controller.h"
+#include "mockController.h"
+// #include "Controller.h"
 #include <set>
 #include <unordered_map>
 #include <vector>
 using std::unordered_map, std::string;
 
 // for test: Uncomment
-// typedef mockController Controller;
+typedef mockController Controller;
 
 enum Command {
 			COMMAND_ERROR,
@@ -36,11 +36,11 @@ class CommandReader {
 		void readCommand();
 		bool exit() const;
 		
+		void treatCommand(std::string command);
 	private:
 		Controller* controller;
 		bool exit_flag;
 
-		void treatCommand(std::string command);
 		void errorMessage(std::string command);
 		std::vector<std::string> separateWords(std::string command);
 		Command resolveCommand(std::string commandFirstWord);
@@ -50,12 +50,12 @@ class CommandReader {
 		void callDisplayHelp(unordered_map<string, string> arguments);
 		void callCreateEmployee(unordered_map<string, string> arguments);
 		void callCreateDepartment(unordered_map<string, string> arguments);
-		bool callShowEmployee(unordered_map<string, string> arguments);
-		bool callShowDepartment(unordered_map<string, string> arguments);
-		bool callRemoveEmployee(unordered_map<string, string> arguments);
-		bool callRemoveDepartment(unordered_map<string, string> arguments);
-		bool callUpdateEmployee(unordered_map<string, string> arguments);
-		bool callUpdateDepartment(unordered_map<string, string> arguments);
+		void callShowEmployee(unordered_map<string, string> arguments);
+		void callShowDepartment(unordered_map<string, string> arguments);
+		void callRemoveEmployee(unordered_map<string, string> arguments);
+		void callRemoveDepartment(unordered_map<string, string> arguments);
+		void callUpdateEmployee(unordered_map<string, string> arguments);
+		void callUpdateDepartment(unordered_map<string, string> arguments);
 		void callLs(unordered_map<string, string> arguments);
 		void callShow(unordered_map<string, string> arguments);
 };	
