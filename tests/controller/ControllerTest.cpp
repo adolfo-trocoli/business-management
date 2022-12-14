@@ -104,7 +104,6 @@ void removeTestFiles() {
 }
 
 bool run_tests() {
-    // Cuidado que run_test necesita que los metodos no tengan parametros
     run_test("test_displayHelp", test_displayHelp);
     run_test("test_displayHelpCommand", test_displayHelpCommand);
     run_test("test_lsEmployees", test_lsEmployees);
@@ -207,7 +206,11 @@ bool test_findEmployees() {
 }
 
 bool test_createEmployee() {
-    if(controller->createEmployee("InvalidEmployee", 100)) return fail();
+    try {
+        controller->createEmployee("InvalidEmployee", 100);
+    } catch (int err) {
+        if(err != 21) return fail();
+    }
     controller->createEmployee("ValidEmployee", 5);
     if(!controller->findEmployee(11).has_value()) return fail();
     return assert(controller->findEmployee(11).value()->getDptId() == 5);
@@ -221,8 +224,12 @@ bool test_removeEmployee() {
 }
 
 bool test_updateEmployee() {
-    if(controller->updateEmployee(9, "InvalidEmployee", 700)) return fail();
-    if(!controller->updateEmployee(9, "ValidEmployee", 2)) return fail();
+    try {
+        controller->updateEmployee(9, "InvalidEmployee", 100);
+    } catch (int err) {
+        if(err != 21) return fail();
+    }
+    controller->updateEmployee(9, "ValidEmployee", 2);
     optional<Employee*> emp = controller->findEmployee(9);
     if(!emp.has_value()) return fail();
     return assert(emp.value()->getDptId() == 2);
@@ -258,7 +265,11 @@ bool test_findDepartments() {
 }
 
 bool test_createDepartment() {
-    if(controller->createDepartment("InvalidDepartment", 1000, 696)) return fail();
+    try {
+        controller->createDepartment("InvalidDepartment", 1000, 696);
+    } catch (int err) {
+        if(err != 22) return fail();
+    }
     controller->createDepartment("ValidDepartment", 1000, 5);
     if(!controller->findDepartment(11).has_value()) return fail();
     return assert(controller->findDepartment(11).value()->getManagerId() == 5);
@@ -271,8 +282,12 @@ bool test_removeDepartment() {
 }
 
 bool test_updateDepartment() {
-    if(controller->updateDepartment(9, "DptInvalid-ManagerId", 1000, 700)) return fail();
-    if(!controller->updateDepartment(9, "DptUpdateDepartment", 1000, 2)) return fail();
+    try {
+        controller->updateDepartment(9, "DptInvalid-ManagerId", 1000, 700);
+    } catch (int err) {
+        if(err != 22) return fail();
+    }
+    controller->updateDepartment(9, "DptUpdateDepartment", 1000, 2);
     optional<Department*> dpt = controller->findDepartment(9);
     if(!dpt.has_value()) return fail();
     return assert(dpt.value()->getManagerId() == 2);

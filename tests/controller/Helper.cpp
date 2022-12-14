@@ -25,10 +25,8 @@ string Helper::help() {
 	else
 		fileURL = HELP_FILE;
 	ifstream file(fileURL);
-	if (file.good())
-		message << file.rdbuf();
-	else
-		message << "No help file found\n";
+	if (!file.good()) throw 31;
+	message << file.rdbuf();
 	return message.str();
 }
 
@@ -46,9 +44,7 @@ string Helper::help(string command) {
 	else
 		fileURL = command + "_help.txt";
 	ifstream file(fileURL);
-	if (file.good())
-		message << file.rdbuf();
-	else
-		message << "No help found for <" + command + ">" << endl;
+	if (!file.good()) throw 32;
+	message << file.rdbuf();
 	return message.str();
 }

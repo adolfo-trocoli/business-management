@@ -24,18 +24,21 @@ void Controller::displayHelp(string command) {
 	cout << helper.help(command);
 }
 
-// Yet to be added most features
 void Controller::lsEmployees() {
 	using std::cout;
 	vector<Employee*> list = empDAO->findAll();
+	cout << "Employee list:" << endl;
 	for (Employee* e : list)
 		cout << e->toString() << endl;
+	cout << endl;
 }
 
 void Controller::lsDepartments() {
 	vector<Department*> list = dptDAO->findAll();
+	cout << "Department list: " << endl;
 	for (Department* d : list)
 		cout << d->toString() << endl;
+	cout << endl;
 }
 
 // --- DB-Related public member functions ---
@@ -52,21 +55,19 @@ optional<Employee*> Controller::findEmployee(int id) {
 vector<Employee*> Controller::findEmployees() {
 	return empDAO->findAll();
 }        
-bool Controller::createEmployee(std::string name, int departmentId) {
-	if(!checkDptId(departmentId)) return false;
+void Controller::createEmployee(std::string name, int departmentId) {
+	if(!checkDptId(departmentId)) throw 21;
 	int id = selectEmployeeId();
 	Employee employee(id, name, departmentId);
 	empDAO->create(employee);
-	return true;
 }
 void Controller::removeEmployee(int id) {
 	empDAO->deletion(id);
 }
-bool Controller::updateEmployee(int id, string name, int departmentId) {
-	if(!checkDptId(departmentId)) return false;
+void Controller::updateEmployee(int id, string name, int departmentId) {
+	if(!checkDptId(departmentId)) throw 21;
 	Employee employee(id, name, departmentId);
 	empDAO->update(employee);
-	return true;
 }
 optional<Department*> Controller::findDepartment(int id) {
 	return dptDAO->find(id);
@@ -81,21 +82,19 @@ void Controller::showDepartment(int id) {
 vector<Department*> Controller::findDepartments() {
 	return dptDAO->findAll();
 }        	
-bool Controller::createDepartment(std::string name, int sells, int managerId) {
-	if(!checkManagerId(managerId)) return false;
+void Controller::createDepartment(std::string name, int sells, int managerId) {
+	if(!checkManagerId(managerId)) throw 22;
 	int id = selectDepartmentId();
 	Department department(id, name, sells, managerId);
 	dptDAO->create(department);
-	return true;
 }
 void Controller::removeDepartment(int id) {
 	dptDAO->deletion(id);
 }
-bool Controller::updateDepartment(int id, string name, int sells, int managerId) {
-	if(!checkManagerId(managerId)) return false;
+void Controller::updateDepartment(int id, string name, int sells, int managerId) {
+	if(!checkManagerId(managerId)) throw 22;
 	Department department(id, name, sells, managerId);
 	dptDAO->update(department);
-	return true;
 }
 
 // --- Private member functions ---
