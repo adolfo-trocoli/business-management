@@ -22,6 +22,8 @@ bool test_update(DepartmentDAO& dptDAO);
 bool test_create(DepartmentDAO& dptDAO);
 bool test_maxId(DepartmentDAO& dptDAO);
 bool test_idExists(DepartmentDAO& dptDAO);
+bool fail();
+
 
 int main() {
 	prepareTestFile();
@@ -55,7 +57,13 @@ bool run_tests(DepartmentDAO& dptDAO) {
 }
 
 void run_test(string test_name, DepartmentDAO& dptDAO, bool (*test)(DepartmentDAO&)) {
+	testCounter++;
 	cout << output_result(test_name, (*test)(dptDAO)) << endl;
+}
+
+bool fail() {
+	failCounter++;
+	return false;
 }
 
 string output_result(string test_name, bool result) {
@@ -64,80 +72,58 @@ string output_result(string test_name, bool result) {
 }
 
 bool test_find(DepartmentDAO& dptDAO) {
-	testCounter++;
-	bool result;
 	optional<Department*> dpt = dptDAO.find(1);
-	if(!dpt.has_value()) {
-		failCounter++;
-		return false;
-	}
-	result = (dpt.value()->getManagerId() == 101);
-	if(!result) failCounter++;
-	return result;
+	if(!dpt.has_value()) return fail();
+	if(dpt.value()->getManagerId() != 101) return fail();
+	return true;
 }
 
 bool test_findAll(DepartmentDAO& dptDAO) {
-	testCounter++;
 	vector<Department*> dpts = dptDAO.findAll();
 	for(int i = 1; i <= 10; i++)
-		if(dpts[i-1]->getId() != i){
-			cout << i << endl;
-			failCounter++;
-			return false;
-		}
+		if(dpts[i-1]->getId() != i)return fail();
 	return true;
 }
 
 bool test_deletion(DepartmentDAO& dptDAO) {
-	testCounter++;
 	dptDAO.deletion(1);
 	optional<Department*> dpt = dptDAO.find(1);
-	bool result = (!dpt.has_value());
-	if(!result) failCounter++;
-	return result; 
+	if(dpt.has_value()) return fail();
+	return true; 
 }
 
 bool test_update(DepartmentDAO& dptDAO) {
-	testCounter++;
+	Department i(678, "Invalid", 1500, 696);
+	try {
+		dptDAO.update(i);
+	} catch (int err) {
+		if(err != 13)
+			return fail();
+	}
 	Department e(9, "Ernesto", 1500, 696);
-	bool result;
 	dptDAO.update(e);
 	optional<Department*> dpt = dptDAO.find(9);
-	if(!dpt.has_value()) {
-		failCounter++;
-		return false;
-	}
-	result = (dpt.value()->getManagerId() == e.getManagerId());
-	if(!result) failCounter++;
-	return result;
+	if(!dpt.has_value()) return fail();
+	if(dpt.value()->getManagerId() != e.getManagerId()) return fail();
+	return true;
 }
 
 bool test_create(DepartmentDAO& dptDAO){
-	testCounter++;
 	Department e(100, "MockDepartment", 1500, 201);
 	dptDAO.create(e);
 	optional<Department*> dpt = dptDAO.find(100);
-	bool result = (dpt.has_value());
-	if(!result) failCounter++;
-	return result;
+	if(!dpt.has_value()) return fail();
+	return true;
 }
 
 bool test_maxId(DepartmentDAO& dptDAO) {
-	testCounter++;
-	bool result = (100 == dptDAO.maxId());
-	if(!result) failCounter++;
-	return result;
+	if(100 != dptDAO.maxId()) return fail();
+	return true;
 }
 
 bool test_idExists(DepartmentDAO& dptDAO) {
-	testCounter++;
-	bool resultado;
-	if(dptDAO.idExists(305)) {
-		failCounter++;
-		return false;	
-	} 
-	resultado = (dptDAO.idExists(100));
-	if(!resultado) failCounter++;
-	return resultado;
+	if(dptDAO.idExists(305)) return fail();
+	if(!dptDAO.idExists(100)) return fail();
+	return true;
 }
 

@@ -5,8 +5,6 @@
 #include <fstream>
 #include <regex>
 #include <optional>
-// debug
-#include <iostream>
 using namespace std;
 /**
  * DAO template class used as a Persistence API to a simple database implemented
@@ -20,6 +18,9 @@ class DAO {
 	public:
 		DAO(string fileURL) {
 			this->fileURL = fileURL;
+			ifstream f(fileURL);
+			if(!f.good()) throw 11;
+			f.close();
 		}
 
 		optional<T*> find(int id) {
@@ -47,25 +48,24 @@ class DAO {
 		}
 
 
-		// Hacer que devuelva un bool si no salen excepciones
 		/**
 		 * Removes the line associated with an object (solely based on the id).
 		*/
 		void deletion(int id) {
 			optional<string> resultLine = dataLine(id);
-			if (!resultLine.has_value()) return;
+			if (!resultLine.has_value()) throw 12;
 			removeLine(resultLine.value());
 		}
 
 		/**
 		 * Updates the state of the given object in the database.
-		 * If the object doesn't exist, it creates it as a new one.
+		 * If the object doesn't exist, it throws 13.
 		 * */
 		void update(T object) {
 			int id = object.getId();
 			optional<string> resultLine = dataLine(id);
-			if (resultLine.has_value())
-				removeLine(resultLine.value());
+			if (!resultLine.has_value()) throw 13;
+			removeLine(resultLine.value());
 			writeObject(object);
 		}
 

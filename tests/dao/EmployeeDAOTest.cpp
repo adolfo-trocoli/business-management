@@ -93,6 +93,12 @@ bool test_findAll(EmployeeDAO& empDAO) {
 }
 
 bool test_deletion(EmployeeDAO& empDAO) {
+	try {
+		empDAO.deletion(999);
+	} catch (int err) {
+		if(err != 12)
+			return fail();
+	}
 	empDAO.deletion(1);
 	optional<Employee*> emp = empDAO.find(1);
 	bool result = (!emp.has_value());
@@ -101,13 +107,18 @@ bool test_deletion(EmployeeDAO& empDAO) {
 }
 
 bool test_update(EmployeeDAO& empDAO) {
+	Employee i(678, "Invalid", 686);
+	try {
+		empDAO.update(i);
+	} catch (int err) {
+		if(err != 13)
+			return fail();
+	}
 	Employee e(9, "Ernesto", 696);
-	bool result;
 	empDAO.update(e);
 	optional<Employee*> emp = empDAO.find(9);
 	if(!emp.has_value()) return fail();
-	result = (emp.value()->getDptId() == e.getDptId());
-	if(!result) return fail();
+	if(emp.value()->getDptId() != e.getDptId()) return fail();
 	return true;
 }
 
