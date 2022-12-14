@@ -1,0 +1,2 @@
+- find          Find employee.
+	# find [-i id]

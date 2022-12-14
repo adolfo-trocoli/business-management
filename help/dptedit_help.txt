@@ -1,0 +1,2 @@
+- dptedit: Edit department.
+    # dptedit [-i id] [-n name] [-s sells] [-m managerId]

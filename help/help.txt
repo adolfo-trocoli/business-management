@@ -1,0 +1,24 @@
+General help file. If you need help for a command, type help -c <command>.
+Commands:
+    - add:          Add employee.
+        # add [-n name] [-d departmentId]
+    - dptadd        Add department.
+        # dptadd [-n name] [-s sells] [-m managerId]
+    - find          Find employee.
+        # find [-i id]
+    - dptfind       Find department.
+        # dptfind [-i id]
+    - edit          Edit employee.
+        # edit [-i id] [-n name] [-d departmentId]
+    - dptedit       Edit department.
+        # dptedit [-i id] [-n name] [-s sells] [-m managerId]
+    - remove        Remove employee.
+        # remove [-i id]
+    - dptremove     Remove department.
+        # dptremove [-i id]
+    - help          Show this help menu or help for other commands.
+        # help [-c command]
+    - ls            List employees or departments.
+        # ls [-{e|d}]
+    - exit          Exit the program.
+    - close         Same as exit.

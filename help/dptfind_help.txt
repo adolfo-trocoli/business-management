@@ -1,0 +1,2 @@
+- dptfind       Find department.
+    # dptfind [-i id]

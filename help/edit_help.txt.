@@ -1,0 +1,2 @@
+- edit: Edit employee.
+    # edit [-i id] [-n name] [-d departmentId]

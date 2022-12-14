@@ -1,0 +1,2 @@
+- ls: List employees or departments.
+    # ls [-{e|d}]

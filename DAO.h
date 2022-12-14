@@ -90,7 +90,7 @@ class DAO {
 		bool idExists(int id) {
 			string line;
 			ifstream file(fileURL);
-			regex r(to_string(id) + "\\s.*");
+			regex r("^" + to_string(id) + "\\s.*");
 			while(getline(file, line)) {
 				if(regex_search(line, r))
 					return true;

@@ -1,15 +1,17 @@
 #ifndef CommandReader_h
 #define CommandReader_h
-// for test: Substitute Controller for mockController and treatCommand from public to private
-#include "mockController.h"
-// #include "Controller.h"
+// For test:
+// 	1- Substitute Controller.h for mockController.h
+// 	2- Move treatCommand from private to public so it can be accessed by test 
+//  3- Uncomment type definition for controller
+// #include "mockController.h"
+#include "Controller.h"
 #include <set>
 #include <unordered_map>
 #include <vector>
 using std::unordered_map, std::string;
 
-// for test: Uncomment
-typedef mockController Controller;
+// typedef mockController Controller;
 
 enum Command {
 			COMMAND_ERROR,
@@ -28,8 +30,6 @@ enum Command {
 			SHOW
 };
 
-// Se puede pasar los comandos por un parser que distinga los parametros y los devuelva en un mapa 
-// con clave la letra del parametro y valor el valor
 class CommandReader {
 	public:
 		CommandReader(Controller *controller);

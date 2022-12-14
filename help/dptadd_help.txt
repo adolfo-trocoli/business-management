@@ -1,0 +1,2 @@
+- dptadd: Add department.
+    # dptadd [-n name] [-s sells] [-m managerId]

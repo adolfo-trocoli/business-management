@@ -1,0 +1,2 @@
+- dptremove     Remove department.
+    # dptremove [-i id]

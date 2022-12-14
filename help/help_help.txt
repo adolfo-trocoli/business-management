@@ -1,0 +1,2 @@
+- help: Show this help menu or help for other commands.
+    # help [-c command]

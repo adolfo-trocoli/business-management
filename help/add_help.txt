@@ -1,0 +1,2 @@
+- add: Add employee.
+        # add [-n name] [-d departmentId]

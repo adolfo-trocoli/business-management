@@ -3,7 +3,7 @@
 #include <regex>
 using namespace std;
 
-const string Helper::HELP_FILE = "help.txt";
+const string Helper::HELP_FILE = "help/help.txt";
 
 /**
  * Constructor. Takes an unordered_map as a paramater to get track of the help files.
@@ -42,7 +42,7 @@ string Helper::help(string command) {
 	if(config_params.find(config_param_name) != config_params.end())
 		fileURL = config_params[config_param_name];
 	else
-		fileURL = command + "_help.txt";
+		fileURL = "help/" + command + "_help.txt";
 	ifstream file(fileURL);
 	if (!file.good()) throw 32;
 	message << file.rdbuf();
