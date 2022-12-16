@@ -113,7 +113,7 @@ void utility::manageHelperException(int code) {
 void utility::manageReaderException(int code) {
     switch(code) {
         case 1:
-            printMessage("Empty command");
+            printMessage("Ilegible characters in command");
             break;
         case 2:
             printMessage("Erroneus command");
@@ -144,8 +144,8 @@ unordered_map<string, string> utility::load_configuration(int argc, char** argv)
     regex r("([\\w-_.]+)=([\\w.-_]*)");
     smatch m;
     while(getline(file, line)) {
-        // if(line.at(0) == '#')
-        //     continue;
+        if(line.empty() || line.at(0) == '#')
+             continue;
         if(regex_search(line, m, r))
             config_param_map.insert({m[1], m[2]});
     }

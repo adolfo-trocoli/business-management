@@ -26,7 +26,7 @@ bool CommandReader::exit() const {return exit_flag;}
 // Private member functions ----------------
 
 void CommandReader::treatCommand(string command){
-	if (command.empty()) throw 41;
+	if(!isLegible(command)) throw 41;
 	vector<string> words = separateWords(command);
 	Command command_case = resolveCommand(words[0]);
 	switch(command_case) {
@@ -66,6 +66,11 @@ Command CommandReader::resolveCommand(string commandFirstWord) {
 	if(commandFirstWord == "dptremove") return DPTREMOVE;
 	if(commandFirstWord == "help") return HELP;
 	if(commandFirstWord == "ls") return LS;
+	if(commandFirstWord == "manager") return MANAGER;
+	if(commandFirstWord == "dpt") return DPT;
+	if(commandFirstWord == "emps") return EMPS;
+	if(commandFirstWord == "search") return SEARCH;
+	if(commandFirstWord == "dptsearch") return DPTSEARCH;
 	if(commandFirstWord == "q") return EXIT;
 	if(commandFirstWord == "exit") return EXIT;
 	if(commandFirstWord == "close") return EXIT;
@@ -94,6 +99,13 @@ unordered_map<string, string> CommandReader::extractArguments(string command) {
     	}
     }
     return hashMap;
+}
+
+bool CommandReader::isLegible(string command) {
+	cout << command << endl;
+	for(char c : command)
+	cout << c << endl;
+	return !regex_match(command, regex("[\\wñ\\s\\-_\"]*"));
 }
 
 void CommandReader::selectControllerCall(Command command_case, unordered_map<string, string> arguments) {
@@ -128,10 +140,23 @@ void CommandReader::selectControllerCall(Command command_case, unordered_map<str
 		case(LS):
 			callLs(arguments);
 			break;
+		case(MANAGER):
+			callManager(arguments);
+			break;
+		case(DPT):
+			callDpt(arguments);
+			break;
+		case(EMPS):
+			callEmps(arguments);
+			break;
+		case(SEARCH):
+			callSearch(arguments);
+			break;
+		case(DPTSEARCH):
+			callDptSearch(arguments);
+			break;
 	}
 }
-
-// Mirar si unificar los comandos de empleados y departamentos
 
 void CommandReader::callDisplayHelp(unordered_map<string, string> arguments) {
 	if(arguments.find("c") != arguments.end())
@@ -241,9 +266,28 @@ void CommandReader::callLs(unordered_map<string, string> arguments) {
 	if(!employees && !departments) throw 45;
 }
 
+void CommandReader::callManager(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end()) throw 44;
+	controller->showManagerForDpt(stoi(arguments["i"]));
+}
 
+void CommandReader::callDpt(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end()) throw 44;
+	controller->showIsManager(stoi(arguments["i"]));
+}
 
+void CommandReader::callEmps(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end()) throw 44;
+	controller->employeesForDpt(stoi(arguments["i"]));
+}
 
+void CommandReader::callSearch(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end()) throw 44;
+	controller->showEmployeesByName(arguments["n"]);
+}
 
-
+void CommandReader::callDptSearch(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end()) throw 44;
+	controller->showDepartmentsByName(arguments["n"]);
+}
 

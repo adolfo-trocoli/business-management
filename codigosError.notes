@@ -7,19 +7,21 @@ DAO:
  - 1: Database file doesn't exist
  - 2: No id for element deletion in database.
  - 3: No id for element update in database.
+ - 4: No manager for this department.
 
 Controller:
  - 1: No departmentId existent in database to associate employee.
  - 2: No managerId existent in databse to associate department.
+ - 3: This department doesn't exist in the database.
+ - 4: There is no employee existent for this id in the database.
 
 Helper:
  - 1: No file found for general help.
  - 2: No file found for command help.
 
 CommandReader:
- - 1: Empty command.
+ - 1: Ilegible command.
  - 2: Erroneus command.
  - 3: Void object parsed.
  - 4: Id attribute needed for command.
  - 5: Additional attributes needed.
-

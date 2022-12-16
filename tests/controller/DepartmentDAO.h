@@ -22,6 +22,18 @@ class DepartmentDAO:
 		}
 	public:
 		DepartmentDAO(string fileURL) : DAO::DAO(fileURL) {}
+		optional<Department*> departmentByManagerId(int id) {
+			optional<Department*> dpt;
+			ifstream file(fileURL);
+			regex r("\\d+\\s\"[\\w\\s.-_?]+\"\\s\\d+\\s" + to_string(id) + "[\\n\\s]?");
+			smatch m;
+			string line;
+			while(getline(file, line)) {
+				if(regex_search(line, m, r)) 
+					dpt = readObject(line);
+			}
+			return dpt;
+		}
 };
 
 #endif

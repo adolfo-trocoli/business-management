@@ -1,5 +1,15 @@
 General help file. If you need help for a command, type help -c <command>.
 Commands:
+    - manager:      Show manager for a certain department.
+        # manager [-i id]
+    - dpt:          Show managed department by employee id.
+        # dpt [-i id]
+    - emps:         Show employee list by department id.
+        # emps [-i id]
+    - search        Search for employees using the given name.
+        # search [-n name]
+    - dptsearch        Search for departments using the given name.
+        # dptsearch [-n name]
     - add:          Add employee.
         # add [-n name] [-d departmentId]
     - dptadd        Add department.

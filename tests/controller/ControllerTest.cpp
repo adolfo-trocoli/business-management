@@ -46,6 +46,9 @@ bool test_findDepartments();
 bool test_createDepartment();
 bool test_removeDepartment();
 bool test_updateDepartment();
+bool test_managerForDpt();
+bool test_departmentForManager();
+bool test_employeesForDpt();
 
 Controller* controller;
 
@@ -120,6 +123,9 @@ bool run_tests() {
     run_test("test_createDepartment", test_createDepartment);
     run_test("test_removeDepartment", test_removeDepartment);
     run_test("test_updateDepartment", test_updateDepartment);
+    run_test("test_managerForDpt", test_managerForDpt);
+    run_test("test_departmentForManager", test_departmentForManager);
+    run_test("test_employeesForDpt", test_employeesForDpt);
     return !failCounter;
 }
 
@@ -206,14 +212,16 @@ bool test_findEmployees() {
 }
 
 bool test_createEmployee() {
+    bool exception = false;
     try {
         controller->createEmployee("InvalidEmployee", 100);
     } catch (int err) {
+        exception = true;
         if(err != 21) return fail();
     }
     controller->createEmployee("ValidEmployee", 5);
     if(!controller->findEmployee(11).has_value()) return fail();
-    return assert(controller->findEmployee(11).value()->getDptId() == 5);
+    return assert(exception && controller->findEmployee(11).value()->getDptId() == 5);
 }
 
 bool test_removeEmployee() {
@@ -224,15 +232,17 @@ bool test_removeEmployee() {
 }
 
 bool test_updateEmployee() {
+    bool exception = false;
     try {
         controller->updateEmployee(9, "InvalidEmployee", 100);
     } catch (int err) {
+        exception = true;
         if(err != 21) return fail();
     }
     controller->updateEmployee(9, "ValidEmployee", 2);
     optional<Employee*> emp = controller->findEmployee(9);
     if(!emp.has_value()) return fail();
-    return assert(emp.value()->getDptId() == 2);
+    return assert(exception &&emp.value()->getDptId() == 2);
 }
 
 // ------------------ Departments
@@ -282,13 +292,45 @@ bool test_removeDepartment() {
 }
 
 bool test_updateDepartment() {
+    bool exception = false;
     try {
         controller->updateDepartment(9, "DptInvalid-ManagerId", 1000, 700);
     } catch (int err) {
+        exception = true;
         if(err != 22) return fail();
     }
     controller->updateDepartment(9, "DptUpdateDepartment", 1000, 2);
     optional<Department*> dpt = controller->findDepartment(9);
     if(!dpt.has_value()) return fail();
-    return assert(dpt.value()->getManagerId() == 2);
+    return assert(exception && dpt.value()->getManagerId() == 2);
+}
+
+bool test_managerForDpt() {
+    bool exception = false;
+    try {
+        controller->managerForDpt(696);
+    } catch (int err) {
+        exception = true;
+        if (err != 23) return fail();
+    }
+    optional<Employee*> emp = controller->managerForDpt(3);
+    if(!emp.has_value()) return fail();
+    return assert(exception && emp.value()->getDptId() == 107);
+}
+bool test_departmentForManager() {
+    bool exception = false;
+    try {
+        controller->departmentForManager(696);
+    } catch (int err) {
+        exception = true;
+        if (err != 24) return fail();
+    }
+    optional<Department*> dpt = controller->departmentForManager(7);
+    if(!dpt.has_value()) return fail();
+    return assert(exception && dpt.value()->getManagerId() == 7);
+
+}
+bool test_employeesForDpt() {
+    vector<Employee*> emps = controller->employeesForDpt(8);
+    return assert(emps.size() == 4 && emps[0]->getId() == 2); 
 }
