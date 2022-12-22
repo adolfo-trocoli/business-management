@@ -22,8 +22,11 @@ class Controller {
         int selectDepartmentId();
         bool checkManagerId(int id);
         bool checkDptId(int id);
+        bool checkSalary(int salary);
         void managerMessage(Department* dpt);
         void noManagerMessage();
+        int benefitForDpt(int id);
+        int totalBenefitForDpts();
         
     public:
         Controller(Controller &other) = delete; // Singleton objects should not be cloneable.
@@ -43,20 +46,22 @@ class Controller {
         void showEmployeesForDpt(int id);
         void showEmployeesByName(string name);
         void showDepartmentsByName(string name);
+        void benefitByDpt(int id);
+        void totalBenefit();
 
         // DB Related methods
         void showEmployee(int id);
         optional<Employee*> findEmployee(int id);
         vector<Employee*> findEmployees();        
-        void createEmployee(std::string = "DefaultName", int departmentId = 0);
+        void createEmployee(std::string = "DefaultName", int salary = 0, int departmentId = 0);
         void removeEmployee(int id);
-        void updateEmployee(int id, string name = "DefaultName", int departmentId = 0);
-
+        void updateEmployee(int id, string name = "DefaultName", int salary = 0, int departmentId = 0);
         void showDepartment(int id);
         optional<Department*> findDepartment(int id);
         vector<Department*> findDepartments();
         void createDepartment(std::string name = "DefaultName", int sells = 0, int managerId = 0);
         void removeDepartment(int id);
         void updateDepartment(int id, string name = "DefaultName", int sells = 0, int managerId = 0);
+
 };
 #endif

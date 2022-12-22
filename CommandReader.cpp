@@ -74,6 +74,7 @@ Command CommandReader::resolveCommand(string commandFirstWord) {
 	if(commandFirstWord == "q") return EXIT;
 	if(commandFirstWord == "exit") return EXIT;
 	if(commandFirstWord == "close") return EXIT;
+	if(commandFirstWord == "benefit") return BENEFIT;
 	return COMMAND_ERROR;
 }
 
@@ -99,13 +100,10 @@ unordered_map<string, string> CommandReader::extractArguments(string command) {
     	}
     }
     return hashMap;
-}
+}		
 
 bool CommandReader::isLegible(string command) {
-	cout << command << endl;
-	for(char c : command)
-	cout << c << endl;
-	return !regex_match(command, regex("[\\wñ\\s\\-_\"]*"));
+	return regex_match(command, regex("[\\wñ\\s\\-_\"]*"));
 }
 
 void CommandReader::selectControllerCall(Command command_case, unordered_map<string, string> arguments) {
@@ -155,6 +153,9 @@ void CommandReader::selectControllerCall(Command command_case, unordered_map<str
 		case(DPTSEARCH):
 			callDptSearch(arguments);
 			break;
+		case(BENEFIT):
+			callBenefit(arguments);
+			break;
 	}
 }
 
@@ -167,11 +168,16 @@ void CommandReader::callDisplayHelp(unordered_map<string, string> arguments) {
 
 void CommandReader::callCreateEmployee(unordered_map<string, string> arguments) {
 	bool name = (arguments.find("n") != arguments.end());
+	bool salary = (arguments.find("s") != arguments.end());
 	bool department = (arguments.find("d") != arguments.end());
 	if(name) {
-		if(department) {
-			controller->createEmployee(arguments["n"], stoi(arguments["d"]));
-		} else
+		if(salary) {
+			if(department)
+				controller->createEmployee(arguments["n"], stoi(arguments["s"]), stoi(arguments["d"]));
+			else
+				controller->createEmployee(arguments["n"], stoi(arguments["s"]));
+			return;
+		} else 
 			controller->createEmployee(arguments["n"]);
 		return;
 	} else {
@@ -201,6 +207,7 @@ void CommandReader::callCreateDepartment(unordered_map<string, string> arguments
 }
 
 void CommandReader::callShowEmployee(unordered_map<string, string> arguments) {
+	bool sells = (arguments.find("s") != arguments.end());
 	if (arguments.find("i") == arguments.end()) throw 44;
 	controller->showEmployee(stoi(arguments["i"]));
 }
@@ -222,14 +229,20 @@ void CommandReader::callRemoveDepartment(unordered_map<string, string> arguments
 
 void CommandReader::callUpdateEmployee(unordered_map<string, string> arguments) {
 	bool id = (arguments.find("i") != arguments.end());
+	bool salary = (arguments.find("s") != arguments.end());
 	bool name = (arguments.find("n") != arguments.end());
 	bool department = (arguments.find("d") != arguments.end());
 	if(id) {
 		if(name) {
-			if(department)
-				controller->updateEmployee(stoi(arguments["i"]), arguments["n"], stoi(arguments["d"]));
-			else
+			if(salary) {
+				if(department)
+					controller->updateEmployee(stoi(arguments["i"]), arguments["n"], stoi(arguments["s"]), stoi(arguments["d"]));
+				else
+					controller->updateEmployee(stoi(arguments["i"]), arguments["n"], stoi(arguments["s"]));
+				return;
+			} else
 				controller->updateEmployee(stoi(arguments["i"]), arguments["n"]);
+			return;
 		} else
 			controller->updateEmployee(stoi(arguments["i"]));
 	} else
@@ -289,5 +302,12 @@ void CommandReader::callSearch(unordered_map<string, string> arguments) {
 void CommandReader::callDptSearch(unordered_map<string, string> arguments) {
 	if (arguments.find("i") == arguments.end()) throw 44;
 	controller->showDepartmentsByName(arguments["n"]);
+}
+
+void CommandReader::callBenefit(unordered_map<string, string> arguments) {
+	if (arguments.find("i") == arguments.end())
+		controller->totalBenefit();
+	else
+		controller->benefitByDpt(stoi(arguments["i"]));
 }
 

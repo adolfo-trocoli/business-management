@@ -18,6 +18,7 @@ enum Command {
 			DPT,
 			EMPS,
 			SEARCH,
-			DPTSEARCH
+			DPTSEARCH,
+            BENEFIT
 };
 #endif

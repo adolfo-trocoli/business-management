@@ -14,6 +14,8 @@ Controller:
  - 2: No managerId existent in databse to associate department.
  - 3: This department doesn't exist in the database.
  - 4: There is no employee existent for this id in the database.
+ - 5: Negative salary attributed to employee.
+ - 6: There is no department existent for this id in the database.
 
 Helper:
  - 1: No file found for general help.

@@ -98,6 +98,13 @@ void Controller::showDepartmentsByName(string name) {
 	}
 }
 
+void Controller::benefitByDpt(int id) {
+	cout << "Benefit of department " << id << ": " << benefitForDpt(id) << endl;
+}
+
+void Controller::totalBenefit() {
+	cout << "Total benefit: " << totalBenefitForDpts() << endl;
+}
 
 // --- DB-Related public member functions ---
 void Controller::showEmployee(int id) {
@@ -115,18 +122,20 @@ optional<Employee*> Controller::findEmployee(int id) {
 vector<Employee*> Controller::findEmployees() {
 	return empDAO->findAll();
 }        
-void Controller::createEmployee(std::string name, int departmentId) {
+void Controller::createEmployee(std::string name, int salary, int departmentId) {
 	if(!checkDptId(departmentId)) throw 21;
+	if(!checkSalary(salary)) throw 25;
 	int id = selectEmployeeId();
-	Employee employee(id, name, departmentId);
+	Employee employee(id, name, salary, departmentId);
 	empDAO->create(employee);
 }
 void Controller::removeEmployee(int id) {
 	empDAO->deletion(id);
 }
-void Controller::updateEmployee(int id, string name, int departmentId) {
+void Controller::updateEmployee(int id, string name, int salary, int departmentId) {
 	if(!checkDptId(departmentId)) throw 21;
-	Employee employee(id, name, departmentId);
+	if(!checkSalary(salary)) throw 25;
+	Employee employee(id, name, salary, departmentId);
 	empDAO->update(employee);
 }
 optional<Department*> Controller::findDepartment(int id) {
@@ -175,6 +184,10 @@ bool Controller::checkDptId(int id) {
 	return dptDAO->idExists(id);
 }
 
+bool Controller::checkSalary(int salary) {
+	return (salary >= 0);
+}
+
 void Controller::managerMessage(Department* dpt) {
 	cout << "Employee is manager of department:" << endl;
 	cout << "\t" << dpt->toString() << endl;
@@ -209,3 +222,23 @@ vector<Employee*> Controller::employeesForDpt(int id) {
 	return emps;
 }
 
+int Controller::benefitForDpt(int id) {
+	int salaries = 0;
+	optional<Department*> dpt = findDepartment(id);
+	if (!dpt.has_value()) {
+		throw 26;
+	}
+	vector<Employee*> emps = employeesForDpt(id);
+	for(Employee* e : emps) {
+		salaries += e->getSalary();
+	}
+	return dpt.value()->getSells() - salaries;
+}
+
+int Controller::totalBenefitForDpts() {
+	int benefits = 0;
+	vector<Department*> dpts = findDepartments();
+	for(Department* dpt : dpts)
+		benefits += benefitForDpt(dpt->getId());
+	return benefits;
+}

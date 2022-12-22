@@ -107,14 +107,14 @@ bool test_deletion(EmployeeDAO& empDAO) {
 }
 
 bool test_update(EmployeeDAO& empDAO) {
-	Employee i(678, "Invalid", 686);
+	Employee i(678, "Invalid", 1500, 686);
 	try {
 		empDAO.update(i);
 	} catch (int err) {
 		if(err != 13)
 			return fail();
 	}
-	Employee e(9, "Ernesto", 696);
+	Employee e(9, "Ernesto", 1500, 696);
 	empDAO.update(e);
 	optional<Employee*> emp = empDAO.find(9);
 	if(!emp.has_value()) return fail();
@@ -123,7 +123,7 @@ bool test_update(EmployeeDAO& empDAO) {
 }
 
 bool test_create(EmployeeDAO& empDAO){
-	Employee e(100, "MockEmployee", 201);
+	Employee e(100, "MockEmployee", 1500, 201);
 	empDAO.create(e);
 	optional<Employee*> emp = empDAO.find(100);
 	bool result = (emp.has_value());

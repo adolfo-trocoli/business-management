@@ -48,5 +48,6 @@ class CommandReader {
 		void callEmps(unordered_map<string, string> arguments);
 		void callSearch(unordered_map<string, string> arguments);
 		void callDptSearch(unordered_map<string, string> arguments);
+		void callBenefit(unordered_map<string, string> arguments);
 };	
 #endif
