@@ -16,20 +16,49 @@ using std::unordered_map, std::string;
 
 class CommandReader {
 	public:
+		/**
+		 * Constructor. Creates CommandReader using a reference to the Controller the calls should be directed to.
+		*/
 		CommandReader(Controller *controller);
+		/**
+		 * Reads command from standard input and treats it.
+		*/
 		void readCommand();
+		/**
+		 * Indicates if the user wants to exit the program. (Whether exit flag is active or not)
+		*/
 		bool exit() const;
-		
-		void treatCommand(std::string command);
 	private:
 		Controller* controller;
 		bool exit_flag;
 
+		/**
+		 * Makes sure that the command exists, extract the arguments and select the call to controller.
+		*/
+		void treatCommand(std::string command);
+		/**
+		 * Shows error message if command does not exist, should be replaced with and exception.
+		*/
 		void errorMessage(std::string command);
+		/**
+		 * Separates words from command and returns vector containing individual words.
+		*/
 		std::vector<std::string> separateWords(std::string command);
+		/**
+		 * Selects the appropiate command reffered by first word of input.
+		*/
 		Command resolveCommand(std::string commandFirstWord);
+		/**
+		 * Exctracts arguments from user input and returns them in map form. Key is argument letter and value is argument value.
+		*/
 		std::unordered_map<std::string, std::string> extractArguments(std::string command);
+		/**
+		 * Selects controller call for given Command and passes argument map.
+		*/
 		void selectControllerCall(Command command_case, std::unordered_map<std::string, std::string> arguments);
+		/**
+		 * Returns true if command only consists of legible characters.
+		*/
 		bool isLegible(std::string command);
 
 		void callDisplayHelp(unordered_map<string, string> arguments);

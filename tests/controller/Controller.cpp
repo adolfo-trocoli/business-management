@@ -9,6 +9,11 @@ Controller::Controller(string employeeFile, string departmentFile, Helper& h)
 	  dptDAO(new DepartmentDAO(departmentFile)),
 	  helper(h) {};
 
+Controller::~Controller() {
+	delete empDAO;
+	delete dptDAO;
+}
+
 Controller *Controller::getInstance(string employeeFile, string departmentFile, Helper& helper) {
 	if(controller == nullptr)
 		controller = new Controller(employeeFile, departmentFile, helper);
@@ -47,17 +52,19 @@ void Controller::lsDepartments() {
 
 void Controller::showManagerForDpt (int id) {
 	optional<Employee*> emp = managerForDpt(id);
-	if(emp.has_value())
+	if(emp.has_value()) {
 		showEmployee(emp.value()->getId());
-	else
+		delete emp.value();
+	} else
 		throw 24;
 }
 
 void Controller::showIsManager(int id) {
 	optional<Department*> dpt = departmentForManager(id); 
-	if(dpt.has_value())
+	if(dpt.has_value()) {
 		managerMessage(dpt.value());
-	else
+		delete dpt.value();
+	} else
 		noManagerMessage();
 }
 
@@ -231,6 +238,7 @@ int Controller::benefitForDpt(int id) {
 	vector<Employee*> emps = employeesForDpt(id);
 	for(Employee* e : emps) {
 		salaries += e->getSalary();
+		delete e;
 	}
 	return dpt.value()->getSells() - salaries;
 }

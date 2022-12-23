@@ -1,5 +1,8 @@
 #ifndef Command_h
 #define Command_h
+/**
+ * Possible commands for bussiness management program.
+*/
 enum Command {
 			COMMAND_ERROR,
 			EXIT,

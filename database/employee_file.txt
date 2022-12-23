@@ -29,3 +29,4 @@
 32 "DefaultName" 0
 33 "manolo" 500
 8 "Nombre" 300 2
+34 "Jose" 500 2

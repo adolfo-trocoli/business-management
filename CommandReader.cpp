@@ -291,7 +291,7 @@ void CommandReader::callDpt(unordered_map<string, string> arguments) {
 
 void CommandReader::callEmps(unordered_map<string, string> arguments) {
 	if (arguments.find("i") == arguments.end()) throw 44;
-	controller->employeesForDpt(stoi(arguments["i"]));
+	controller->showEmployeesForDpt(stoi(arguments["i"]));
 }
 
 void CommandReader::callSearch(unordered_map<string, string> arguments) {

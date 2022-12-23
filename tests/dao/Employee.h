@@ -2,8 +2,6 @@
 #define Employee_h
 #include <string>
 
-// No puedo ponerlo id en static porque ya puede haber algunos cargados en la base de datos mirarlo bien o si lo pongo al menos que en el constructor se tengan en cuenta.
-// Tengo que mirar como hacer la asignacion de ids, o con el counter o viendo el mayor numero de la base de datos y superandolo o algo asi.
 class Employee {
     private:
         int id;

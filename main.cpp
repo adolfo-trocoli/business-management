@@ -16,19 +16,52 @@ using namespace std;
 
 const string DEFAULT_CONFIG_FILE = ".config";
 
+/**
+ * General functions used in main program.
+*/
 namespace utility {
+    /**
+     * Loads configurations from configuration file specified in program arguments. If no configuration file is given, 
+     * it defaults to ".config".
+    */
     unordered_map<string, string> load_configuration(int argc, char** argv);
+    /**
+     * Deletes reader and controller objects.
+    */
     void close_program();
-    
+    /**
+     * Prints message in purple.
+    */
     void printMessage(string message);
+    /**
+     * Manage exceptions coming from any part of the program and derives it to the specific manager function.
+    */
     void manageException(int);
+    /**
+     * Manages DAO exceptions (1x).
+    */
     void manageDAOException(int);
+    /**
+     * Manages controller exceptions (2x).
+    */
     void manageControllerException(int);
+    /**
+     * Manages helper exceptions (3x).
+    */
     void manageHelperException(int);
+    /**
+     * Manages reader exceptions (4x).
+    */
     void manageReaderException(int);
 }
-
+/**
+ * Signal handler for the program. Independiently of the signal received, it closes the objects in the program and then
+ * exits the program with code equal to the signal received.
+*/
 void signalHandler(int signum);
+/**
+ * Enters the user interaction phase of the program, in which it reads command from standard input and interprets them.
+*/
 void beginInteraction();
 
 Controller* controller;
@@ -36,7 +69,6 @@ CommandReader* reader;
 
 int main(int argc, char** argv) {
     signal(SIGINT, signalHandler);
-    
     unordered_map<string, string> config_params = utility::load_configuration(argc, argv);
     Helper helper(config_params);
     controller = Controller::getInstance(config_params["employee_file"], config_params["department_file"], helper);
@@ -154,7 +186,7 @@ unordered_map<string, string> utility::load_configuration(int argc, char** argv)
 
 void utility::close_program() {
     delete reader;
-    // delete controller;
+    delete controller;
 }
 
 void signalHandler(int signum) {

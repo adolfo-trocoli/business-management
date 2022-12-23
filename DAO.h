@@ -6,12 +6,12 @@
 #include <regex>
 #include <optional>
 using namespace std;
+
 /**
  * DAO template class used as a Persistence API to a simple database implemented
  * with a file text for each class that has to be persisted. It is an abstract
  * because some of the private helper functions must be implemented by a subclass 
  * specific to a type.
- * 
  */
 template <class T>
 class DAO {
@@ -23,6 +23,9 @@ class DAO {
 			f.close();
 		}
 
+		/**
+		 * Returns pointer to object with given id if it exists.
+		*/
 		optional<T*> find(int id) {
 			optional<T*> object;
 			string line;
@@ -34,6 +37,9 @@ class DAO {
 			return object;
 		}
 
+		/**
+		 * Returns vector of pointers to all objects in database.
+		*/
 		vector<T*> findAll() {
 			optional<T*> object;
 			vector<T*> objects;
@@ -46,7 +52,6 @@ class DAO {
 			}
 			return objects;
 		}
-
 
 		/**
 		 * Removes the line associated with an object (solely based on the id).
@@ -69,10 +74,16 @@ class DAO {
 			writeObject(object);
 		}
 
+		/**
+		 * Creates object in the database by writing the corresponding line.
+		*/
 		void create (T object) {
 			writeObject(object);
 		}
 
+		/**
+		 * Returns the maximum id in the database. It is an utility to assign new ids later from Controller.
+		*/
 		int maxId() {
 			string line;
 			int max = 0;
@@ -87,6 +98,9 @@ class DAO {
 			return max;
 		}
 
+		/**
+		 * Returns wether an object exists in the database with given id.
+		*/
 		bool idExists(int id) {
 			string line;
 			ifstream file(fileURL);
@@ -101,8 +115,14 @@ class DAO {
 	protected:
         string fileURL;
         
+		/**
+		 * Reads object from line in database. Needs to be implemented by specific subclass.
+		*/
         virtual optional<T*> readObject(string line) = 0;
         
+		/**
+		 * Returns line beginning by id.
+		*/
         optional<string> dataLine(int id) {
         	optional<string> dataLine;
         	string line;
@@ -112,10 +132,18 @@ class DAO {
         			dataLine = line;
         	return dataLine;
         }
+
+		/**
+		 * Checks if line corresponds to given id.
+		*/
         bool checkLine(int id, string line) {
         	regex r("^" + to_string(id) + "\\s.*");
         	return regex_search(line, r);
         }  
+
+		/**
+		 * Removes line from file.
+		*/
         void removeLine(string dataLine) {
 			ifstream file(fileURL);
 		    ofstream temp;
@@ -131,6 +159,10 @@ class DAO {
 		    remove(fileURL.c_str());
 		    rename("temp8647509834758.txt", fileURL.c_str());
 		}
+
+		/**
+		 * Writes line to file. Line is dictated by object toString() method.
+		*/
 		void writeObject(T object) {
 			ofstream file(fileURL, ios::app);
 			file << object.toString() << endl;

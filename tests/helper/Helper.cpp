@@ -14,7 +14,7 @@ Helper::Helper(unordered_map<string, string> config_params) {
 
 /**
  * Shows contents of help file. If there is no "help_file" key in the configurations
- * map, the file defaults to HELP_FILE = "help.txt".
+ * map, the file defaults to HELP_FILE = "help/help.txt".
  */
 string Helper::help() {
 	stringstream message;

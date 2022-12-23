@@ -6,8 +6,6 @@
 #include <optional>
 using namespace std;
 
-// Esta clase sigue siendo abstracta hasta que no implemente lo métodos virtuales puros de la superclase.
-// Los ids están declarados como estáticos pero si no tiene en cuenta en el constructor el último que ya hay escrito en el archivo, se van a repetir y se va a rayar.
 class DepartmentDAO:
 	public DAO<Department> {
 	protected:
