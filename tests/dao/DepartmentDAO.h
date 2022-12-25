@@ -30,6 +30,7 @@ class DepartmentDAO:
 				if(regex_search(line, m, r)) 
 					dpt = readObject(line);
 			}
+			file.close();
 			return dpt;
 		}
 };

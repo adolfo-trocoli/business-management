@@ -30,5 +30,16 @@ Commands:
         # help [-c command]
     - ls            List employees or departments.
         # ls [-{e|d}]
+    - benefit       Show benefit of a concrete department or the hole bussiness 
+                    if no attribute is given.
+        # benefit [-i id]
+    - emps          List all employees for a given department.
+        # emps [-i id]
+    - dpt           Shows if a given employee is manager and if it is, it shows 
+                    the department of which it is.
+        # dpt [-i id]
+    - manager       Shows manager of a given department.
+        # manager [-i id]
     - exit          Exit the program.
     - close         Same as exit.
+    - q             Same as exit.

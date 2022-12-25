@@ -34,6 +34,7 @@ class DAO {
 				if (checkLine(id, line))
 					object = readObject(line);
 			}
+			file.close();
 			return object;
 		}
 
@@ -50,6 +51,7 @@ class DAO {
 				if (object.has_value())
 					objects.push_back(object.value());
 			}
+			file.close();
 			return objects;
 		}
 
@@ -95,6 +97,7 @@ class DAO {
 					if(stoi(m[1]) > max)
 						max = stoi(m[1]);
 			}
+			file.close();
 			return max;
 		}
 
@@ -109,6 +112,7 @@ class DAO {
 				if(regex_search(line, r))
 					return true;
 			}
+			file.close();
 			return false;
 		}
 
@@ -130,6 +134,7 @@ class DAO {
         	while(getline(file, line))
         		if (checkLine(id, line))
         			dataLine = line;
+			file.close();
         	return dataLine;
         }
 
