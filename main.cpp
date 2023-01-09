@@ -173,7 +173,7 @@ unordered_map<string, string> utility::load_configuration(int argc, char** argv)
     string config_file = (argc > 1) ? argv[1] : DEFAULT_CONFIG_FILE;
     ifstream file(config_file);
     string line;
-    regex r("([\\w-_.]+)=([\\w.-_]*)");
+    regex r("([\\w\\-_.]+)=([\\w.-_]*)");
     smatch m;
     while(getline(file, line)) {
         if(line.empty() || line.at(0) == '#')
