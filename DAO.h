@@ -154,11 +154,9 @@ class DAO {
 		    ofstream temp;
 		    temp.open("temp8647509834758.txt");
 		    string line;
-		    while (getline(file,line)) {
-		        if (line != dataLine) {
+		    while (getline(file,line))
+		        if (line != dataLine)
 		            temp << line << endl;
-		        }
-		    }
 		    temp.close();
 		    file.close();
 		    remove(fileURL.c_str());
