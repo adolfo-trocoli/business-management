@@ -1,0 +1,2 @@
+- emps:         Show employee list by department id.
+        # emps [-i id]

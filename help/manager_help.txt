@@ -1,0 +1,2 @@
+- manager:      Show manager for a certain department.
+        # manager [-i id]

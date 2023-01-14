@@ -1,0 +1,4 @@
+- benefit       Show benefit of a concrete department or the hole bussiness
+                    if no attribute is given.
+        # benefit [-i id]
+

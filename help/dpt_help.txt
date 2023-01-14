@@ -1,0 +1,2 @@
+- dpt:          Show managed department by employee id.
+        # dpt [-i id]

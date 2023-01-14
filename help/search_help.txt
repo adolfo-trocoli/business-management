@@ -1,0 +1,2 @@
+- search        Search for employees using the given name.
+        # search [-n name]
