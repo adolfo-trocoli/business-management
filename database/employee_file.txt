@@ -1,33 +1,9 @@
-
-0 "Employee 0" 1500 100
-1 "Employee 1" 1500 100
-2 "Employee 2" 1500 100
-3 "Employee 3" 1500 100
-4 "Employee 4" 1500 100
-5 "Employee 5" 1500 100
-6 "Employee 6" 1500 100
-7 "Employee 7" 1500 100
-9 "Employee 9" 1500 100
-10 "Employee 10" 1500 100
-11 "Employee 11" 1500 100
-12 "Employee 12" 100
-13 "Employee 13" 100
-14 "Employee 14" 100
-15 "Employee 15" 100
-16 "Employee 16" 100
-17 "Employee 17" 100
-18 "Employee 18" 100
-20 "Juan" 3
-21 "Ricardo" 8
-22 "Ricky" 4
-23 "DefaultName" 0
-25 "DefaultName" 0
-28 "juan" 500
-29 "Nombrazo" 11
-30 "DefaultName" 0
-31 "DefaultName" 0
-32 "DefaultName" 0
-33 "manolo" 500
-8 "Nombre" 300 2
-34 "Jose" 500 2
-35 "Juan" 1000 2
+12 "Adolfo" 1300 2
+17 "Nico" 2000 6
+46 "Marco" 1500 2
+58 "Paula" 1400 22
+72 "Alberto" 2200 7
+73 "Marquina" 1600 6
+75 "Joaquin" 1550 6
+78 "Alvaro" 900 22
+80 "Pablo" 1320 7

@@ -2,8 +2,6 @@ General help file. If you need help for a command, type help -c <command>.
 Commands:
     - manager:      Show manager for a certain department.
         # manager [-i id]
-    - dpt:          Show managed department by employee id.
-        # dpt [-i id]
     - emps:         Show employee list by department id.
         # emps [-i id]
     - search        Search for employees using the given name.
@@ -11,7 +9,7 @@ Commands:
     - dptsearch        Search for departments using the given name.
         # dptsearch [-n name]
     - add:          Add employee.
-        # add [-n name] [-d departmentId]
+        # add [-n name] [-s salary] [-d departmentId]
     - dptadd        Add department.
         # dptadd [-n name] [-s sells] [-m managerId]
     - find          Find employee.
@@ -19,13 +17,17 @@ Commands:
     - dptfind       Find department.
         # dptfind [-i id]
     - edit          Edit employee.
-        # edit [-i id] [-n name] [-d departmentId]
+        # edit [-i id] [-n name] [-s salary] [-d departmentId]
     - dptedit       Edit department.
         # dptedit [-i id] [-n name] [-s sells] [-m managerId]
     - remove        Remove employee.
         # remove [-i id]
     - dptremove     Remove department.
         # dptremove [-i id]
+    - search        Search employee by name.
+        # search [-n name]
+    - dptsearch     Search department by name 
+        # dptsearch [-n name]
     - help          Show this help menu or help for other commands.
         # help [-c command]
     - ls            List employees or departments.
@@ -33,13 +35,9 @@ Commands:
     - benefit       Show benefit of a concrete department or the hole bussiness 
                     if no attribute is given.
         # benefit [-i id]
-    - emps          List all employees for a given department.
-        # emps [-i id]
     - dpt           Shows if a given employee is manager and if it is, it shows 
                     the department of which it is.
         # dpt [-i id]
-    - manager       Shows manager of a given department.
-        # manager [-i id]
     - exit          Exit the program.
     - close         Same as exit.
     - q             Same as exit.

@@ -28,14 +28,14 @@
 
 
 ## Setup
-#### Binary installation
+##### Binary installation
 There is a fully working, pre-compiled executable called business-manager ready to download and run.
 
-### Compilation from source code.
+##### Compilation from source code.
 - All code needed for compilation is included in primary directory. There are no libraries involved other than *C++ std*.
 - There is only need to compile *.cpp* files in primary directory. Other classes are for testing purposes.
 
-### Compilation with test suite
+##### Compilation with test suite
 - Tests are compiled independiently from their own directory.
 - Every test depends on *./tests/testConstants.h* to work.
 - There are symbolic links to program files to make possible the compilation with one simple command from inside the test directory.

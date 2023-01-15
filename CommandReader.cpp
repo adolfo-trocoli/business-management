@@ -295,12 +295,12 @@ void CommandReader::callEmps(unordered_map<string, string> arguments) {
 }
 
 void CommandReader::callSearch(unordered_map<string, string> arguments) {
-	if (arguments.find("i") == arguments.end()) throw 44;
+	if (arguments.find("n") == arguments.end()) throw 45;
 	controller->showEmployeesByName(arguments["n"]);
 }
 
 void CommandReader::callDptSearch(unordered_map<string, string> arguments) {
-	if (arguments.find("i") == arguments.end()) throw 44;
+	if (arguments.find("n") == arguments.end()) throw 45;
 	controller->showDepartmentsByName(arguments["n"]);
 }
 
