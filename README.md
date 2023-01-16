@@ -3,15 +3,22 @@
 
 ## Table of Contents
 * [General Info](#general-information)
-* [Technologies Used](#technologies-used)
+* [Functioning](#functioning)
 * [Features](#features)
-* [Screenshots](#screenshots)
 * [Setup](#setup)
+	* [Binary installation](#binary-installation)
+	* [Compilation from source code](#compilation-from-source-code)
+	* [Compilation with test suite](#compilation-with-test-suite)
 * [Usage](#usage)
-* [Project Status](#project-status)
+* [Configuration](#configuration)
 * [Room for Improvement](#room-for-improvement)
+* [Design patterns used](#design-patterns-used)
+* [Technologies Used](#technologies-used)
+* [Project Status](#project-status)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
+* [Class diagram](#class-diagram)
+* [Screenshots](#screenshots)
 
 
 ## General Information
@@ -33,7 +40,7 @@ The program is able to do various things such as search by name, show employees 
 - You have to download the help directory if you want to access the help module.
 - You can download standard configuration (.config file). If you do not do this you have to add a path for "employee_file" and "department_file" configuration parameters.
 
-##### Compilation from source code.
+##### Compilation from source code
 - All code needed for compilation is included in primary directory. There are no libraries involved other than *C++ std*.
 - There is only need to compile *.cpp* files in primary directory. Other classes are for testing purposes.
 
