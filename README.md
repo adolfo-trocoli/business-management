@@ -28,7 +28,10 @@ The program is able to do various things such as search by name, show employees 
 
 ## Setup
 ##### Binary installation
-- There is a fully working, pre-compiled executable called business-manager ready to download and run.
+- There is a fully working, pre-compiled executable called business-manager ready to download and run after following next steps.
+- You have to create an empty /database directory (or alternatively download the sample database folder from here)
+- You have to download the help directory if you want to access the help module.
+- You can download standard configuration (.config file). If you do not do this you have to add a path for "employee_file" and "department_file" configuration parameters.
 
 ##### Compilation from source code.
 - All code needed for compilation is included in primary directory. There are no libraries involved other than *C++ std*.
@@ -78,6 +81,12 @@ The program has a CLI to access and modify the database as well as to do busines
 	quit # same as exit
 	q # same as exit
 
+## Configuration
+- Program reads it's configuration from a configuration text file. The location of this file can be specified through the first command line argument while calling the program.
+- Default location for configuration file is "./.config".
+- Configuration parameters can be specified by a "config_param=config_value" pair in a new line.
+- Default location for database files are /database/employee_file.txt and /database/department_file.txt
+- Default location for help files is under /help directory. Main help file is called help.txt, and the names of the command help files are like: command_help.txt
 
 ## Room for Improvement
 - Output parsing responsibility should be moved from Controller class to a new one.
