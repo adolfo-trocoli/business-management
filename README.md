@@ -99,6 +99,11 @@ Project is complete. Any additions, comments and requests are welcomed in the Is
 Created by [@adolfo-trocoli](github.com/adolfo-trocoli)
 LinkedIn [profile](https://www.linkedin.com/in/adolfo-trocol%C3%AD-naranjo-a07250224)
 
+## Class diagram
+- UML Class diagram with attributes and public methods
+![Class diagram](./img/class_diagram.png)
+
+
 ## Screenshots
 - Example of use of employee management commands
 ![Employee management](./img/employee_management.png)
