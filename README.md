@@ -93,6 +93,11 @@ The program has a CLI to access and modify the database as well as to do busines
 - Common part from Test classes should be abstracted to AbstractTest to avoid code repetition.
 - Command and argument interpretation are too strongly tied to CommandReader internal functions, they could be made more modular to avoid work while adding new functions for the program.
 
+#### Design patterns used
+
+- Singleton pattern used in Controller class to ensure there is only one instance of Controller to avoid bugs.
+- DAO pattern used to encapsulate access to database in it's own layer. Data Access Objects are created in the controller to handle database functioning.
+
 #### Technologies Used
 - C++20
 
