@@ -6,4 +6,5 @@
 73 "Marquina" 1600 6
 75 "Joaquin" 1550 6
 78 "Alvaro" 900 22
-80 "Pablo" 1320 7
+82 "Michael" 900 22
+81 "Jhon" 775 7

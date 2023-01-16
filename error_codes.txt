@@ -1,7 +1,7 @@
-Errores DAO: 1X
-Errores Controller: 2X
-Errores Helper: 3X
-Errores Comando: 4X
+DAO error: 1X
+Controller error: 2X
+Helper error: 3X
+Command reader error: 4X
 
 DAO:
  - 1: Database file doesn't exist

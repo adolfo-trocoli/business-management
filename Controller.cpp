@@ -135,15 +135,18 @@ void Controller::createEmployee(std::string name, int salary, int departmentId) 
 	int id = selectEmployeeId();
 	Employee employee(id, name, salary, departmentId);
 	empDAO->create(employee);
+	cout << "\tCreated employee succesfully" << endl;
 }
 void Controller::removeEmployee(int id) {
 	empDAO->deletion(id);
+	cout << "\tRemoved employee succesfully" << endl;
 }
 void Controller::updateEmployee(int id, string name, int salary, int departmentId) {
 	if(!checkDptId(departmentId)) throw 21;
 	if(!checkSalary(salary)) throw 25;
 	Employee employee(id, name, salary, departmentId);
 	empDAO->update(employee);
+	cout << "\tUpdated employee succesfully" << endl;
 }
 optional<Department*> Controller::findDepartment(int id) {
 	return dptDAO->find(id);
@@ -164,14 +167,17 @@ void Controller::createDepartment(std::string name, int sells, int managerId) {
 	int id = selectDepartmentId();
 	Department department(id, name, sells, managerId);
 	dptDAO->create(department);
+	cout << "\tCreated department succesfully" << endl;
 }
 void Controller::removeDepartment(int id) {
 	dptDAO->deletion(id);
+	cout << "\tRemoved department succesfully" << endl;
 }
 void Controller::updateDepartment(int id, string name, int sells, int managerId) {
 	if(!checkManagerId(managerId)) throw 22;
 	Department department(id, name, sells, managerId);
 	dptDAO->update(department);
+	cout << "\tUpdated department succesfully" << endl;
 }
 
 // --- Private member functions ---

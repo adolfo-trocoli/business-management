@@ -1,4 +1,4 @@
 2 "Online Services" 5000 12
 6 "Server Management" 7000 17
-7 "Sofware Development" 3500 72
-22 "Consulting Services" 3340 58
+7 "Shop" 4500 81
+22 "Internet" 3340 58

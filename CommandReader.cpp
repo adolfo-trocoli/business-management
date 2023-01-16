@@ -27,6 +27,7 @@ bool CommandReader::exit() const {return exit_flag;}
 
 void CommandReader::treatCommand(string command){
 	if(!isLegible(command)) throw 41;
+	if(command.empty()) return;
 	vector<string> words = separateWords(command);
 	Command command_case = resolveCommand(words[0]);
 	switch(command_case) {
