@@ -45,38 +45,38 @@ The program has a CLI to access and modify the database as well as to do busines
 
 \- Help
 
-	`help [ -c <command> ]` # show help
+	help [ -c <command> ] # show help
 
 \- Database interaction for employees
 
-	`ls -e` # list employees
-	`add -n <name> -s <salary> -d <departmentId>` # add employee
-	`edit -i <id> -n <name> -s <salary> -d <departmentId>` # edit employee
-	`remove -i <id>` # remove employee
-	`find -i <id>` # find employee by id
-	`search -n <name>` # search employee by name
+	ls -e # list employees
+	add -n <name> -s <salary> -d <departmentId> # add employee
+	edit -i <id> -n <name> -s <salary> -d <departmentId> # edit employee
+	remove -i <id> # remove employee
+	find -i <id> # find employee by id
+	search -n <name> # search employee by name
 
 \- Database interaction for departments
 
-	`ls -d` # list departments
-	`dptadd -n <name> -s <sells> -m <managerId>` # add department
-	`dptedit -i <id> -n <name> -s <sells> -m <managerId>`# edit department
-	`dptremove -i <id>` # remove department
-	`dptfind -i <id>` # find department by id
-	`dptsearch -n <name>` # search department by name
+	ls -d # list departments
+	dptadd -n <name> -s <sells> -m <managerId> # add department
+	dptedit -i <id> -n <name> -s <sells> -m <managerId># edit department
+	dptremove -i <id> # remove department
+	dptfind -i <id> # find department by id
+	dptsearch -n <name> # search department by name
 
 \- Business methods
 
-	`emps -i <departmentId>` # show employees of a certain department
-	`dpt -i <employeeId>` # show if employee if manager and managed department if it is
-	`manager -i <departmentId>` # shows manager for a certain department
-	`benefit [ -i <departmentId> ]`# shows benefit for department or for whole business 
+	emps -i <departmentId> # show employees of a certain department
+	dpt -i <employeeId> # show if employee if manager and managed department if it is
+	manager -i <departmentId> # shows manager for a certain department
+	benefit [ -i <departmentId> ] # shows benefit for department or for whole business
 
 \- Exit program
 
-	`exit` # exit the program
-	`quit` # same as exit
-	`q` # same as exit
+	exit # exit the program
+	quit # same as exit
+	q # same as exit
 
 
 ## Room for Improvement
@@ -106,7 +106,7 @@ LinkedIn [profile](https://www.linkedin.com/in/adolfo-trocol%C3%AD-naranjo-a0725
 
 ## Screenshots
 - Example of use of employee management commands
-![Employee management](./img/employee_management.png )
+![Employee management](./img/employee_management.png)
 
 - Example of use of department management commands
 ![Department management](./img/department_management.png)
