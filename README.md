@@ -26,11 +26,6 @@ The program is able to do various things such as search by name, show employees 
 - Simple, fast database access.
 - Complete set of tests for every class and functionality.
 
-## Screenshots
-![Employee management](./img/employee_management.png)
-![Department management](./img/department_management.png)
-![Business commands](./img/business_commands.png)
-
 ## Setup
 ##### Binary installation
 - There is a fully working, pre-compiled executable called business-manager ready to download and run.
@@ -103,4 +98,14 @@ Project is complete. Any additions, comments and requests are welcomed in the Is
 #### Contact
 Created by [@adolfo-trocoli](github.com/adolfo-trocoli)
 LinkedIn [profile](https://www.linkedin.com/in/adolfo-trocol%C3%AD-naranjo-a07250224)
+
+## Screenshots
+- Example of use of employee management commands
+![Employee management](./img/employee_management.png)
+
+- Example of use of department management commands
+![Department management](./img/department_management.png)
+
+- Example of use of business commands
+![Business commands](./img/business_commands.png)
 
